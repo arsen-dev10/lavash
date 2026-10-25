@@ -1,0 +1,149 @@
+* {
+    box-sizing:border-box;
+    margin:0;
+    padding: 0;
+}
+
+body{
+    height: 5000px;
+}
+
+.cart {
+    width: 200px;
+    border: 2px solid black;
+    padding: 10px;
+    margin-top: 15px;
+    height: 350px;
+}
+
+.carts{
+    display: flex;
+    gap: 20px;
+    /* justify-content; */
+    /* justify-content*/
+    /* justify-content; */
+    /* justify-content */
+    /*justify-content; */
+    border: 3px solid red;
+    /* height: 2000px; */
+    /* align-items: center; */
+    /* align-items: flex-end; */
+    flex-wrap: wrap;
+}
+body{
+    font-family: soms serif;
+    /* display: inline-block; */
+    /* margin-left:20px; */
+}
+.cart img {
+    width: 100%;
+}
+.cart h4{
+    color: rgb(87, 78, 66);
+    font-size: 14px;
+    /* margin:7px 0; */
+    margin-top: 7px;
+}
+
+.cart h5{
+    font-size: 25px;
+}
+
+.cart p{
+    margin-top: 7px;
+}
+
+.cart h5, p {
+    color: rgb(24, 41, 35);
+}
+
+.cart button{
+    margin-top: 10px;
+    width: 100%;
+    padding: 6px;
+    border-radius: 10px;
+    border: none;
+    transition: all 0.3s ;
+    position: relative;
+    background: transparent;
+    border: 1px solid black;
+    overflow: hidden;
+    z-index: 1;
+}
+
+
+
+.cart button:hover{
+    color: white;
+}
+
+.cart button:active{
+    transform: scale(0.9);
+}
+
+.cart button::after{
+    width: 0%;
+    content: "";
+    height: 100%;
+    background-color: #000;
+    position: absolute;
+    left: 0;
+    top: 0;
+    transition: all 0.3s;
+    z-index: -1;
+}
+
+.cart button:hover::after{
+    width: 120%;
+}
+
+
+.cart .vip{
+    position: absolute;
+    width: 30px;
+    right: 0;
+    top: 10px;
+    /* bottom: 0; */
+    margin: 0;
+    z-index: 1;
+}
+
+.img{
+    position: relative;
+    z-index: 2;
+}
+
+.boxes{
+    border: 3px solid black;
+    margin-top: 30px;
+    height: 500px;
+}
+
+.box{
+    width: 90%;
+    height: 50px;
+    margin: auto;
+}
+
+.red{
+    background-color: red;
+}
+
+.green{
+    background-color: green;
+}
+
+.black{
+    background-color: black;
+    position: sticky;
+    top: 0px;
+    z-index: 10;
+}
+
+.blue{
+    background-color: blue;
+    position: sticky;
+    z-index: 10;
+    top: 0px;
+    /* height: 0px; */
+}

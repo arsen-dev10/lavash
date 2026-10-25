@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Настройки — Админ панель</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo"><i class="fas fa-mountain"></i><div><span>VisitKyrgyzstan</span><small>Admin Panel</small></div></div>
+    <nav class="sidebar-menu">
+      <div class="menu-section">Главное</div>
+      <a href="dashboard.html" class="menu-item"><i class="fas fa-tachometer-alt"></i> Дашборд</a>
+      <div class="menu-section">Контент</div>
+      <a href="places.html"  class="menu-item"><i class="fas fa-map-marker-alt"></i> Места</a>
+      <a href="routes.html"  class="menu-item"><i class="fas fa-route"></i> Маршруты</a>
+      <a href="reviews.html" class="menu-item"><i class="fas fa-star"></i> Отзывы</a>
+      <div class="menu-section">Система</div>
+      <a href="settings.html"  class="menu-item active"><i class="fas fa-cog"></i> Настройки</a>
+      <a href="../index.html" class="menu-item" target="_blank"><i class="fas fa-external-link-alt"></i> Открыть сайт</a>
+      <a href="#" class="menu-item" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Выход</a>
+    </nav>
+  </aside>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button id="adminBurger" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--a-gray)"><i class="fas fa-bars"></i></button>
+        <div>
+          <div class="topbar-title">Настройки</div>
+          <div class="topbar-breadcrumb"><a href="dashboard.html">Дашборд</a> <i class="fas fa-chevron-right"></i> <span>Настройки</span></div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-user"><div class="avatar">A</div><span>Admin</span></div>
+        <button class="logout-btn" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+    </div>
+
+    <div class="page-body">
+      <div class="page-header">
+        <div><h1>Настройки</h1><p>Управление параметрами сайта и аккаунта администратора</p></div>
+      </div>
+
+      <div class="settings-grid">
+        <!-- БОКОВОЕ МЕНЮ НАСТРОЕК -->
+        <div class="settings-nav">
+          <div class="settings-nav-item active" onclick="showSection('general',this)"><i class="fas fa-globe"></i> Общие</div>
+          <div class="settings-nav-item" onclick="showSection('security',this)"><i class="fas fa-shield-alt"></i> Безопасность</div>
+          <div class="settings-nav-item" onclick="showSection('content',this)"><i class="fas fa-layer-group"></i> Контент</div>
+          <div class="settings-nav-item" onclick="showSection('data',this)"><i class="fas fa-database"></i> Данные</div>
+        </div>
+
+        <div>
+          <!-- ОБЩИЕ -->
+          <div class="settings-section active card" id="section-general">
+            <div class="card-header"><h2><i class="fas fa-globe"></i> Общие настройки</h2><button class="btn btn-primary btn-sm" onclick="saveGeneral()"><i class="fas fa-save"></i> Сохранить</button></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Название сайта</label>
+                <input type="text" id="siteName" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>Email сайта</label>
+                <input type="email" id="siteEmail" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>Телефон</label>
+                <input type="text" id="sitePhone" class="form-control" />
+              </div>
+              <div class="form-group">
+                <label>Адрес</label>
+                <input type="text" id="siteAddress" class="form-control" />
+              </div>
+              <div class="setting-row">
+                <div class="setting-info"><strong>Режим обслуживания</strong><span>Сайт будет недоступен для посетителей</span></div>
+                <label class="toggle"><input type="checkbox" id="maintenanceMode" /><span class="toggle-slider"></span></label>
+              </div>
+            </div>
+          </div>
+
+          <!-- БЕЗОПАСНОСТЬ -->
+          <div class="settings-section card" id="section-security">
+            <div class="card-header"><h2><i class="fas fa-shield-alt"></i> Безопасность — Смена пароля</h2></div>
+            <div class="card-body">
+              <div class="form-group">
+                <label>Текущий пароль <span class="required">*</span></label>
+                <input type="password" id="curPass" class="form-control" placeholder="••••••••" />
+              </div>
+              <div class="form-group">
+                <label>Новый пароль <span class="required">*</span></label>
+                <input type="password" id="newPass" class="form-control" placeholder="Минимум 6 символов" />
+              </div>
+              <div class="form-group">
+                <label>Подтверждение нового пароля <span class="required">*</span></label>
+                <input type="password" id="confirmPass" class="form-control" placeholder="Повторите новый пароль" />
+              </div>
+              <button class="btn btn-primary" onclick="changePassword()"><i class="fas fa-key"></i> Изменить пароль</button>
+
+              <hr style="margin:1.5rem 0;border-color:var(--a-border)">
+
+              <div class="form-group">
+                <label>Изменить логин администратора</label>
+                <input type="text" id="newLogin" class="form-control" placeholder="Новый логин" />
+                <div class="form-hint">Текущий логин: <strong id="curLoginDisplay"></strong></div>
+              </div>
+              <button class="btn btn-outline" onclick="changeLogin()"><i class="fas fa-user-edit"></i> Изменить логин</button>
+
+              <hr style="margin:1.5rem 0;border-color:var(--a-border)">
+              <div style="background:#fef2f2;border-radius:var(--a-radius-sm);padding:1rem">
+                <strong style="color:var(--a-red)"><i class="fas fa-exclamation-triangle"></i> Завершить все сессии</strong>
+                <p style="font-size:.85rem;color:var(--a-gray);margin:.4rem 0 .85rem">Вы будете разлогинены на всех устройствах.</p>
+                <button class="btn btn-danger btn-sm" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Выйти сейчас</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- КОНТЕНТ -->
+          <div class="settings-section card" id="section-content">
+            <div class="card-header"><h2><i class="fas fa-layer-group"></i> Настройки контента</h2><button class="btn btn-primary btn-sm" onclick="saveContent()"><i class="fas fa-save"></i> Сохранить</button></div>
+            <div class="card-body">
+              <div class="setting-row">
+                <div class="setting-info"><strong>Автоодобрение отзывов</strong><span>Отзывы публикуются сразу без проверки</span></div>
+                <label class="toggle"><input type="checkbox" id="autoApprove" /><span class="toggle-slider"></span></label>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info"><strong>Показывать рейтинги</strong><span>Звёздочки рейтинга на карточках мест</span></div>
+                <label class="toggle"><input type="checkbox" id="showRatings" checked /><span class="toggle-slider"></span></label>
+              </div>
+              <div class="setting-row">
+                <div class="setting-info"><strong>Кнопка «Сохранить» на местах</strong><span>Пользователи могут сохранять места в закладки</span></div>
+                <label class="toggle"><input type="checkbox" id="showSaveBtn" checked /><span class="toggle-slider"></span></label>
+              </div>
+              <div class="form-group" style="margin-top:1rem">
+                <label>Мест на странице</label>
+                <select id="itemsPerPage" class="form-control" style="max-width:180px">
+                  <option value="6">6</option>
+                  <option value="9">9</option>
+                  <option value="12">12</option>
+                  <option value="24">24</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- ДАННЫЕ -->
+          <div class="settings-section card" id="section-data">
+            <div class="card-header"><h2><i class="fas fa-database"></i> Управление данными</h2></div>
+            <div class="card-body">
+
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.25rem">
+                <div style="background:var(--a-light);border-radius:var(--a-radius-sm);padding:1.25rem">
+                  <h4 style="margin-bottom:.5rem"><i class="fas fa-map-marker-alt" style="color:var(--a-primary)"></i> Места</h4>
+                  <p style="font-size:.82rem;color:var(--a-gray);margin-bottom:.85rem">Записей в базе: <strong id="placesCountData">—</strong></p>
+                  <button class="btn btn-ghost btn-sm" onclick="resetPlaces()"><i class="fas fa-undo"></i> Сбросить к стандарту</button>
+                </div>
+                <div style="background:var(--a-light);border-radius:var(--a-radius-sm);padding:1.25rem">
+                  <h4 style="margin-bottom:.5rem"><i class="fas fa-route" style="color:var(--a-green)"></i> Маршруты</h4>
+                  <p style="font-size:.82rem;color:var(--a-gray);margin-bottom:.85rem">Записей в базе: <strong id="routesCountData">—</strong></p>
+                  <button class="btn btn-ghost btn-sm" onclick="resetRoutes()"><i class="fas fa-undo"></i> Сбросить к стандарту</button>
+                </div>
+                <div style="background:var(--a-light);border-radius:var(--a-radius-sm);padding:1.25rem">
+                  <h4 style="margin-bottom:.5rem"><i class="fas fa-star" style="color:var(--a-accent)"></i> Отзывы</h4>
+                  <p style="font-size:.82rem;color:var(--a-gray);margin-bottom:.85rem">Всего отзывов: <strong id="reviewsCountData">—</strong></p>
+                  <button class="btn btn-ghost btn-sm" onclick="resetReviews()"><i class="fas fa-undo"></i> Только стандартные</button>
+                </div>
+                <div style="background:var(--a-light);border-radius:var(--a-radius-sm);padding:1.25rem">
+                  <h4 style="margin-bottom:.5rem"><i class="fas fa-bookmark" style="color:#7c3aed"></i> Сохранения</h4>
+                  <p style="font-size:.82rem;color:var(--a-gray);margin-bottom:.85rem">Мест сохранено: <strong id="savedCountData">—</strong></p>
+                  <button class="btn btn-ghost btn-sm" onclick="clearSavedData()"><i class="fas fa-trash"></i> Очистить</button>
+                </div>
+              </div>
+
+              <div style="background:#fef2f2;border-radius:var(--a-radius-sm);padding:1.25rem;margin-top:1.25rem">
+                <h4 style="color:var(--a-red);margin-bottom:.5rem"><i class="fas fa-exclamation-triangle"></i> Сброс всех данных</h4>
+                <p style="font-size:.85rem;color:var(--a-gray);margin-bottom:.85rem">Удалит все пользовательские данные и восстановит стандартные. Это действие необратимо.</p>
+                <button class="btn btn-danger btn-sm" onclick="resetAll()"><i class="fas fa-trash-alt"></i> Сбросить всё</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+<script>
+requireAuth();
+initSidebar();
+
+function showSection(name, el) {
+  document.querySelectorAll('.settings-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.settings-nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('section-'+name).classList.add('active');
+  el.classList.add('active');
+}
+
+// Загрузить настройки
+const S = getSettings();
+document.getElementById('siteName').value    = S.siteName    || 'VisitKyrgyzstan';
+document.getElementById('siteEmail').value   = S.siteEmail   || 'info@visit-kyrgyzstan.kg';
+document.getElementById('sitePhone').value   = S.sitePhone   || '+996 312 000 000';
+document.getElementById('siteAddress').value = S.siteAddress || 'г. Бишкек, пр. Чуй 101';
+document.getElementById('maintenanceMode').checked   = !!S.maintenanceMode;
+document.getElementById('autoApprove').checked       = S.reviewsAutoApprove !== false;
+document.getElementById('showRatings').checked       = S.showRatings !== false;
+document.getElementById('showSaveBtn').checked       = S.showSaveBtn !== false;
+document.getElementById('itemsPerPage').value        = String(S.itemsPerPage || 9);
+document.getElementById('curLoginDisplay').textContent = localStorage.getItem('kg_admin_user') || 'admin';
+
+// Счётчики данных
+document.getElementById('placesCountData').textContent  = getPlaces().length;
+document.getElementById('routesCountData').textContent  = getRoutes().length;
+document.getElementById('reviewsCountData').textContent = getReviews().length;
+document.getElementById('savedCountData').textContent   = JSON.parse(localStorage.getItem('kg_saved_places')||'[]').length;
+
+function saveGeneral() {
+  const S = getSettings();
+  S.siteName        = document.getElementById('siteName').value.trim();
+  S.siteEmail       = document.getElementById('siteEmail').value.trim();
+  S.sitePhone       = document.getElementById('sitePhone').value.trim();
+  S.siteAddress     = document.getElementById('siteAddress').value.trim();
+  S.maintenanceMode = document.getElementById('maintenanceMode').checked;
+  saveSettings(S);
+  adminToast('Общие настройки сохранены', 'ok');
+}
+
+function saveContent() {
+  const S = getSettings();
+  S.reviewsAutoApprove = document.getElementById('autoApprove').checked;
+  S.showRatings        = document.getElementById('showRatings').checked;
+  S.showSaveBtn        = document.getElementById('showSaveBtn').checked;
+  S.itemsPerPage       = parseInt(document.getElementById('itemsPerPage').value);
+  saveSettings(S);
+  adminToast('Настройки контента сохранены', 'ok');
+}
+
+function changePassword() {
+  const cur     = document.getElementById('curPass').value;
+  const newP    = document.getElementById('newPass').value;
+  const confirm = document.getElementById('confirmPass').value;
+  const savedPass = localStorage.getItem('kg_admin_pass') || 'admin123';
+
+  if (cur !== savedPass)    { adminToast('Неверный текущий пароль', 'err'); return; }
+  if (newP.length < 6)      { adminToast('Новый пароль должен быть не менее 6 символов', 'err'); return; }
+  if (newP !== confirm)     { adminToast('Пароли не совпадают', 'err'); return; }
+
+  localStorage.setItem('kg_admin_pass', newP);
+  document.getElementById('curPass').value = '';
+  document.getElementById('newPass').value = '';
+  document.getElementById('confirmPass').value = '';
+  adminToast('Пароль успешно изменён', 'ok');
+}
+
+function changeLogin() {
+  const newLogin = document.getElementById('newLogin').value.trim();
+  if (!newLogin || newLogin.length < 3) { adminToast('Логин должен содержать минимум 3 символа', 'err'); return; }
+  localStorage.setItem('kg_admin_user', newLogin);
+  document.getElementById('curLoginDisplay').textContent = newLogin;
+  document.getElementById('newLogin').value = '';
+  adminToast(`Логин изменён на «${newLogin}»`, 'ok');
+}
+
+function resetPlaces()  { adminConfirm('Сбросить места к стандартным данным?', () => { localStorage.removeItem('kg_admin_places'); document.getElementById('placesCountData').textContent = getPlaces().length; adminToast('Места сброшены', 'ok'); }); }
+function resetRoutes()  { adminConfirm('Сбросить маршруты к стандартным данным?', () => { localStorage.removeItem('kg_admin_routes'); document.getElementById('routesCountData').textContent = getRoutes().length; adminToast('Маршруты сброшены', 'ok'); }); }
+function resetReviews() { adminConfirm('Удалить пользовательские отзывы?', () => { const def = getReviews().filter(r=>r.isDefault); saveReviews(def); document.getElementById('reviewsCountData').textContent = def.length; adminToast('Отзывы сброшены', 'ok'); }); }
+function clearSavedData(){ adminConfirm('Очистить список сохранённых мест?', () => { localStorage.removeItem('kg_saved_places'); document.getElementById('savedCountData').textContent = 0; adminToast('Сохранения очищены', 'ok'); }); }
+
+function resetAll() {
+  adminConfirm('Сбросить ВСЕ данные к стандартным? Это необратимо!', () => {
+    ['kg_admin_places','kg_admin_routes','kg_reviews','kg_saved_places','kg_admin_settings'].forEach(k => localStorage.removeItem(k));
+    adminToast('Все данные сброшены', 'warn');
+    setTimeout(() => location.reload(), 1200);
+  }, '⚠️ Полный сброс данных');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://visit-kyrgyzstan.kg/sitemap.xml
+
+# Crawler hints
+Crawl-delay: 1

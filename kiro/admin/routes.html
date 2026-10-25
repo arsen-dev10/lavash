@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Маршруты — Админ панель</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+<div class="admin-layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-logo"><i class="fas fa-mountain"></i><div><span>VisitKyrgyzstan</span><small>Admin Panel</small></div></div>
+    <nav class="sidebar-menu">
+      <div class="menu-section">Главное</div>
+      <a href="dashboard.html" class="menu-item"><i class="fas fa-tachometer-alt"></i> Дашборд</a>
+      <div class="menu-section">Контент</div>
+      <a href="places.html"  class="menu-item"><i class="fas fa-map-marker-alt"></i> Места</a>
+      <a href="routes.html"  class="menu-item active"><i class="fas fa-route"></i> Маршруты</a>
+      <a href="reviews.html" class="menu-item"><i class="fas fa-star"></i> Отзывы</a>
+      <div class="menu-section">Система</div>
+      <a href="settings.html"  class="menu-item"><i class="fas fa-cog"></i> Настройки</a>
+      <a href="../index.html" class="menu-item" target="_blank"><i class="fas fa-external-link-alt"></i> Открыть сайт</a>
+      <a href="#" class="menu-item" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Выход</a>
+    </nav>
+  </aside>
+
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button id="adminBurger" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--a-gray)"><i class="fas fa-bars"></i></button>
+        <div>
+          <div class="topbar-title">Маршруты</div>
+          <div class="topbar-breadcrumb"><a href="dashboard.html">Дашборд</a> <i class="fas fa-chevron-right"></i> <span>Маршруты</span></div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <div class="topbar-user"><div class="avatar">A</div><span>Admin</span></div>
+        <button class="logout-btn" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i></button>
+      </div>
+    </div>
+
+    <div class="page-body">
+      <div class="page-header">
+        <div><h1>Управление маршрутами</h1><p>Добавляйте и редактируйте туристические маршруты</p></div>
+        <button class="btn btn-primary" onclick="openRouteModal()"><i class="fas fa-plus"></i> Добавить маршрут</button>
+      </div>
+
+      <div class="filter-bar">
+        <div class="search-input-wrap">
+          <i class="fas fa-search"></i>
+          <input type="text" id="routeSearch" placeholder="Поиск маршрута..." oninput="renderRoutes()" />
+        </div>
+        <select class="filter-select" id="routeTypeFilter" onchange="renderRoutes()">
+          <option value="">Все типы</option>
+          <option value="trek">Треккинг</option>
+          <option value="horse">Конный</option>
+          <option value="climb">Альпинизм</option>
+          <option value="culture">Культурный</option>
+        </select>
+        <select class="filter-select" id="routeDiffFilter" onchange="renderRoutes()">
+          <option value="">Любая сложность</option>
+          <option value="easy">Лёгкий</option>
+          <option value="medium">Средний</option>
+          <option value="hard">Сложный</option>
+        </select>
+        <span id="routeCount" style="font-size:.82rem;color:var(--a-gray)"></span>
+      </div>
+
+      <div class="card">
+        <div class="card-body" style="padding:0">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th style="width:40px">#</th>
+                <th>Название маршрута</th>
+                <th>Тип</th>
+                <th>Сложность</th>
+                <th>Длительность</th>
+                <th>Дистанция</th>
+                <th>Высота</th>
+                <th>Сезон</th>
+                <th>Статус</th>
+                <th style="width:100px">Действия</th>
+              </tr>
+            </thead>
+            <tbody id="routesTableBody"></tbody>
+          </table>
+          <div class="empty-state" id="routesEmpty" style="display:none">
+            <i class="fas fa-route"></i><p>Маршруты не найдены</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- МОДАЛКА МАРШРУТ -->
+<div class="modal-overlay" id="routeModal">
+  <div class="modal" style="max-width:660px">
+    <div class="modal-header">
+      <h3 id="routeModalTitle"><i class="fas fa-route" style="color:var(--a-primary)"></i> Добавить маршрут</h3>
+      <button class="modal-close" onclick="closeModal('routeModal')"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="routeId" />
+      <div class="form-grid">
+        <div class="form-group full">
+          <label>Название маршрута <span class="required">*</span></label>
+          <input type="text" id="routeName" class="form-control" placeholder="Ала-Арча — Водопад Ак-Сай" />
+        </div>
+        <div class="form-group">
+          <label>Тип <span class="required">*</span></label>
+          <select id="routeType" class="form-control">
+            <option value="trek">🥾 Треккинг</option>
+            <option value="horse">🐴 Конный</option>
+            <option value="climb">🧗 Альпинизм</option>
+            <option value="culture">🏛️ Культурный</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Сложность</label>
+          <select id="routeDiff" class="form-control">
+            <option value="easy">🟢 Лёгкий</option>
+            <option value="medium">🟡 Средний</option>
+            <option value="hard">🔴 Сложный</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Длительность</label>
+          <input type="text" id="routeDuration" class="form-control" placeholder="6-7 ч" />
+        </div>
+        <div class="form-group">
+          <label>Дистанция</label>
+          <input type="text" id="routeDistance" class="form-control" placeholder="14 км" />
+        </div>
+        <div class="form-group">
+          <label>Высота (диапазон)</label>
+          <input type="text" id="routeHeight" class="form-control" placeholder="2200-3500 м" />
+        </div>
+        <div class="form-group">
+          <label>Лучший сезон</label>
+          <input type="text" id="routeSeason" class="form-control" placeholder="Май–Октябрь" />
+        </div>
+        <div class="form-group">
+          <label>Статус</label>
+          <select id="routeStatus" class="form-control">
+            <option value="active">✅ Активен</option>
+            <option value="hidden">🔒 Скрыт</option>
+          </select>
+        </div>
+        <div class="form-group full">
+          <label>Транспорт / как добраться</label>
+          <input type="text" id="routeTransport" class="form-control" placeholder="Маршрутка №265 из Бишкека (1 ч, 60 сом)" />
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('routeModal')">Отмена</button>
+      <button class="btn btn-primary" onclick="saveRoute()"><i class="fas fa-save"></i> Сохранить</button>
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+<script>
+requireAuth();
+initSidebar();
+
+function renderRoutes() {
+  let routes = getRoutes();
+  const q    = document.getElementById('routeSearch').value.toLowerCase();
+  const type = document.getElementById('routeTypeFilter').value;
+  const diff = document.getElementById('routeDiffFilter').value;
+
+  if (q)    routes = routes.filter(r => r.name.toLowerCase().includes(q));
+  if (type) routes = routes.filter(r => r.type === type);
+  if (diff) routes = routes.filter(r => r.difficulty === diff);
+
+  document.getElementById('routeCount').textContent = `Найдено: ${routes.length}`;
+  const tbody = document.getElementById('routesTableBody');
+  const empty = document.getElementById('routesEmpty');
+
+  if (!routes.length) { tbody.innerHTML=''; empty.style.display='block'; return; }
+  empty.style.display = 'none';
+
+  const diffClass = { easy:'easy', medium:'medium', hard:'hard' };
+  tbody.innerHTML = routes.map((r,i) => `
+    <tr>
+      <td style="color:var(--a-gray);font-size:.8rem">${i+1}</td>
+      <td><div class="name-cell">${escHtml(r.name)}</div><div class="sub-text">${escHtml(r.transport||'')}</div></td>
+      <td><span class="badge-tag ${r.type==='trek'?'gorge':r.type==='horse'?'forest':r.type==='climb'?'mountain':'culture'}">${TYPE_LABELS[r.type]||r.type}</span></td>
+      <td><span class="badge-tag ${diffClass[r.difficulty]||'easy'}">${DIFF_LABELS[r.difficulty]||r.difficulty}</span></td>
+      <td style="font-size:.82rem"><i class="fas fa-clock" style="color:var(--a-gray)"></i> ${escHtml(r.duration||'—')}</td>
+      <td style="font-size:.82rem">${escHtml(r.distance||'—')}</td>
+      <td style="font-size:.82rem;color:var(--a-gray)">${escHtml(r.height||'—')}</td>
+      <td style="font-size:.78rem;color:var(--a-gray)">${escHtml(r.season||'—')}</td>
+      <td><span class="badge-tag ${r.status==='active'?'active':'hidden'}">${r.status==='active'?'Активен':'Скрыт'}</span></td>
+      <td>
+        <div style="display:flex;gap:.4rem">
+          <button class="btn btn-ghost btn-sm btn-icon" onclick="editRoute('${r.id}')" title="Редактировать"><i class="fas fa-edit"></i></button>
+          <button class="btn btn-ghost btn-sm btn-icon" onclick="deleteRoute('${r.id}')" title="Удалить" style="color:var(--a-red)"><i class="fas fa-trash"></i></button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+function openRouteModal() {
+  document.getElementById('routeId').value       = '';
+  document.getElementById('routeName').value     = '';
+  document.getElementById('routeType').value     = 'trek';
+  document.getElementById('routeDiff').value     = 'easy';
+  document.getElementById('routeDuration').value = '';
+  document.getElementById('routeDistance').value = '';
+  document.getElementById('routeHeight').value   = '';
+  document.getElementById('routeSeason').value   = '';
+  document.getElementById('routeStatus').value   = 'active';
+  document.getElementById('routeTransport').value= '';
+  document.getElementById('routeModalTitle').innerHTML = '<i class="fas fa-plus" style="color:var(--a-primary)"></i> Добавить маршрут';
+  openModal('routeModal');
+}
+
+function editRoute(id) {
+  const r = getRoutes().find(x => x.id === id);
+  if (!r) return;
+  document.getElementById('routeId').value       = r.id;
+  document.getElementById('routeName').value     = r.name||'';
+  document.getElementById('routeType').value     = r.type||'trek';
+  document.getElementById('routeDiff').value     = r.difficulty||'easy';
+  document.getElementById('routeDuration').value = r.duration||'';
+  document.getElementById('routeDistance').value = r.distance||'';
+  document.getElementById('routeHeight').value   = r.height||'';
+  document.getElementById('routeSeason').value   = r.season||'';
+  document.getElementById('routeStatus').value   = r.status||'active';
+  document.getElementById('routeTransport').value= r.transport||'';
+  document.getElementById('routeModalTitle').innerHTML = '<i class="fas fa-edit" style="color:var(--a-primary)"></i> Редактировать маршрут';
+  openModal('routeModal');
+}
+
+function saveRoute() {
+  const name = document.getElementById('routeName').value.trim();
+  if (!name) { adminToast('Введите название маршрута', 'err'); return; }
+  const id = document.getElementById('routeId').value;
+  const data = {
+    id:         id || genId('r'),
+    name,
+    type:       document.getElementById('routeType').value,
+    difficulty: document.getElementById('routeDiff').value,
+    duration:   document.getElementById('routeDuration').value.trim(),
+    distance:   document.getElementById('routeDistance').value.trim(),
+    height:     document.getElementById('routeHeight').value.trim(),
+    season:     document.getElementById('routeSeason').value.trim(),
+    status:     document.getElementById('routeStatus').value,
+    transport:  document.getElementById('routeTransport').value.trim(),
+  };
+  let routes = getRoutes();
+  if (id) {
+    routes = routes.map(r => r.id === id ? data : r);
+    adminToast(`Маршрут «${name}» обновлён`, 'ok');
+  } else {
+    routes.unshift(data);
+    adminToast(`Маршрут «${name}» добавлен`, 'ok');
+  }
+  saveRoutes(routes);
+  closeModal('routeModal');
+  renderRoutes();
+}
+
+function deleteRoute(id) {
+  const r = getRoutes().find(x => x.id === id);
+  adminConfirm(`Удалить маршрут «${r?.name||id}»?`, () => {
+    saveRoutes(getRoutes().filter(x => x.id !== id));
+    adminToast('Маршрут удалён', 'warn');
+    renderRoutes();
+  });
+}
+
+renderRoutes();
+</script>
+</body>
+</html>

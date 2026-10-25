@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Маршруты и транспорт — Кыргызстан</title>
+  <meta name="description" content="Туристические маршруты Кыргызстана. Транспорт из Бишкека в любую точку страны." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <div class="logo"><i class="fas fa-mountain"></i><span>Visit<strong>Kyrgyzstan</strong></span></div>
+      <nav class="nav" id="mainNav">
+        <a href="index.html"><i class="fas fa-home"></i> <span data-i18n="nav_home">Главная</span></a>
+        <a href="places.html"><i class="fas fa-map-marker-alt"></i> <span data-i18n="nav_places">Места</span></a>
+        <a href="mountains.html"><i class="fas fa-mountain"></i> <span data-i18n="nav_mountains">Горы</span></a>
+        <a href="routes.html" class="active"><i class="fas fa-route"></i> <span data-i18n="nav_routes">Маршруты</span></a>
+        <a href="map.html"><i class="fas fa-map"></i> <span data-i18n="nav_map">Карта</span></a>
+        <a href="reviews.html"><i class="fas fa-star"></i> <span data-i18n="nav_reviews">Отзывы</span></a>
+      </nav>
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="ky" onclick="setLang('ky')">KY</button>
+      </div>
+      <button class="burger" id="burger"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <section class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1400');background-size:cover;background-position:center;">
+    <div class="overlay"></div>
+    <div class="page-hero-content">
+      <h1><i class="fas fa-route"></i> <span data-i18n="routes_title">Маршруты и транспорт</span></h1>
+      <p data-i18n="routes_sub">Все пути к красотам — от Бишкека до любой вершины</p>
+    </div>
+  </section>
+
+  <!-- ПОИСК -->
+  <section class="search-section">
+    <div class="container">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <div class="search-wrapper">
+          <input type="text" id="globalSearch" data-i18n-placeholder="search_placeholder" placeholder="Поиск..." autocomplete="off" />
+          <div class="search-dropdown" id="searchDropdown"></div>
+        </div>
+        <button onclick="doSearch()" data-i18n="search_btn">Найти</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html" data-i18n="nav_home">Главная</a>
+        <i class="fas fa-chevron-right"></i>
+        <span data-i18n="nav_routes">Маршруты</span>
+      </div>
+
+      <!-- ТАБЛИЦА ТРАНСПОРТА -->
+      <div style="background:var(--light);border-radius:var(--radius);padding:2rem;margin-bottom:3rem">
+        <h2 style="margin-bottom:1.5rem;font-size:1.4rem"><i class="fas fa-bus" style="color:var(--primary)"></i> <span data-i18n="transport_from_bishkek">Транспорт из Бишкека</span></h2>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:.9rem">
+            <thead>
+              <tr style="background:var(--primary);color:white">
+                <th style="padding:.75rem 1rem;text-align:left" data-i18n="dest">Направление</th>
+                <th style="padding:.75rem 1rem;text-align:left" data-i18n="transp">Транспорт</th>
+                <th style="padding:.75rem 1rem;text-align:left" data-i18n="time">Время</th>
+                <th style="padding:.75rem 1rem;text-align:left" data-i18n="price">Цена (сом)</th>
+                <th style="padding:.75rem 1rem;text-align:left" data-i18n="from_where">Откуда</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:.7rem 1rem;font-weight:600">Иссык-Куль (Чолпон-Ата)</td><td style="padding:.7rem 1rem"><i class="fas fa-bus" style="color:var(--primary)"></i> Маршрутка</td><td style="padding:.7rem 1rem">4-5 ч</td><td style="padding:.7rem 1rem">300-500</td><td style="padding:.7rem 1rem">Зап. автовокзал</td></tr>
+              <tr style="border-bottom:1px solid #e2e8f0;background:var(--light)"><td style="padding:.7rem 1rem;font-weight:600">Каракол</td><td style="padding:.7rem 1rem"><i class="fas fa-bus" style="color:var(--primary)"></i> Маршрутка</td><td style="padding:.7rem 1rem">6-7 ч</td><td style="padding:.7rem 1rem">400-600</td><td style="padding:.7rem 1rem">Зап. автовокзал</td></tr>
+              <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:.7rem 1rem;font-weight:600">Нарын</td><td style="padding:.7rem 1rem"><i class="fas fa-bus" style="color:var(--primary)"></i> Автобус</td><td style="padding:.7rem 1rem">7-8 ч</td><td style="padding:.7rem 1rem">350-500</td><td style="padding:.7rem 1rem">Ост. автовокзал</td></tr>
+              <tr style="border-bottom:1px solid #e2e8f0;background:var(--light)"><td style="padding:.7rem 1rem;font-weight:600">Ош</td><td style="padding:.7rem 1rem"><i class="fas fa-plane" style="color:var(--primary)"></i> Самолёт</td><td style="padding:.7rem 1rem">1 ч</td><td style="padding:.7rem 1rem">1500-4000</td><td style="padding:.7rem 1rem">Аэропорт Манас</td></tr>
+              <tr style="border-bottom:1px solid #e2e8f0"><td style="padding:.7rem 1rem;font-weight:600">Ош</td><td style="padding:.7rem 1rem"><i class="fas fa-bus" style="color:var(--primary)"></i> Ночной автобус</td><td style="padding:.7rem 1rem">10-12 ч</td><td style="padding:.7rem 1rem">500-900</td><td style="padding:.7rem 1rem">Ост. автовокзал</td></tr>
+              <tr style="border-bottom:1px solid #e2e8f0;background:var(--light)"><td style="padding:.7rem 1rem;font-weight:600">Жалал-Абад</td><td style="padding:.7rem 1rem"><i class="fas fa-bus" style="color:var(--primary)"></i> Автобус</td><td style="padding:.7rem 1rem">9-11 ч</td><td style="padding:.7rem 1rem">500-800</td><td style="padding:.7rem 1rem">Ост. автовокзал</td></tr>
+              <tr><td style="padding:.7rem 1rem;font-weight:600">Талас</td><td style="padding:.7rem 1rem"><i class="fas fa-bus" style="color:var(--primary)"></i> Маршрутка</td><td style="padding:.7rem 1rem">4-5 ч</td><td style="padding:.7rem 1rem">250-400</td><td style="padding:.7rem 1rem">Зап. автовокзал</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ФИЛЬТРЫ МАРШРУТОВ -->
+      <h2 style="margin-bottom:1rem;font-size:1.4rem" data-i18n="routes_title">Туристические маршруты</h2>
+      <div class="routes-filter" id="routeFilter">
+        <button class="filter-btn active" data-filter="all" data-i18n="filter_all">Все</button>
+        <button class="filter-btn" data-filter="trek" data-i18n="filter_trek">🥾 Треккинг</button>
+        <button class="filter-btn" data-filter="horse" id="horse" data-i18n="filter_horse_r">🐴 Конные</button>
+        <button class="filter-btn" data-filter="climb" data-i18n="filter_climb">🧗 Альпинизм</button>
+        <button class="filter-btn" data-filter="culture" data-i18n="filter_culture">🏛️ Культура</button>
+        <button class="filter-btn" data-filter="easy" data-i18n="filter_easy">🟢 Лёгкие</button>
+      </div>
+
+      <div class="routes-grid" id="routesGrid">
+
+        <div class="route-card" data-cat="trek easy">
+          <div class="route-img" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600')">
+            <span class="route-difficulty easy">Лёгкий</span>
+          </div>
+          <div class="route-body">
+            <h3>Ала-Арча — Водопад Ак-Сай</h3>
+            <div class="route-meta">
+              <span><i class="fas fa-ruler-horizontal"></i> 14 км</span>
+              <span><i class="fas fa-clock"></i> 6-7 ч</span>
+              <span><i class="fas fa-ruler-vertical"></i> 2200-3500 м</span>
+              <span><i class="fas fa-calendar"></i> Май–Окт.</span>
+            </div>
+            <p style="font-size:.9rem;color:var(--gray);margin-bottom:.85rem">Классический однодневный маршрут от КПП парка до водопада.</p>
+            <div class="route-transport-box">
+              <h4><i class="fas fa-bus" style="color:var(--primary)"></i> <span data-i18n="how_to_get">Как добраться</span></h4>
+              <p>Маршрутка №265 из Бишкека → КПП Ала-Арча (1 ч, 60 сом).</p>
+              <div class="transport-icons">
+                <div class="t-icon"><i class="fas fa-bus"></i> 60 сом / 1 ч</div>
+                <div class="t-icon"><i class="fas fa-taxi"></i> 700 сом</div>
+                <div class="t-icon"><i class="fas fa-car"></i> 40 мин</div>
+              </div>
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">Карта</span></a>
+          </div>
+        </div>
+
+        <div class="route-card" data-cat="trek horse">
+          <div class="route-img" style="background-image:url('https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?w=600')">
+            <span class="route-difficulty medium">Средний</span>
+          </div>
+          <div class="route-body">
+            <h3>Кочкор — Сон-Куль (конный тур)</h3>
+            <div class="route-meta">
+              <span><i class="fas fa-horse"></i> 2-3 дня</span>
+              <span><i class="fas fa-ruler-vertical"></i> 2800-3200 м</span>
+              <span><i class="fas fa-calendar"></i> Июнь–Авг.</span>
+              <span><i class="fas fa-home"></i> Ночь в юрте</span>
+            </div>
+            <p style="font-size:.9rem;color:var(--gray);margin-bottom:.85rem">Незабываемый маршрут верхом через горные перевалы к озеру Сон-Куль.</p>
+            <div class="route-transport-box">
+              <h4><i class="fas fa-bus" style="color:var(--primary)"></i> <span data-i18n="how_to_get">Как добраться до Кочкора</span></h4>
+              <p>Бишкек→Кочкор: маршрутка 3 ч (180 сом).</p>
+              <div class="transport-icons">
+                <div class="t-icon"><i class="fas fa-bus"></i> 180 сом / 3 ч</div>
+                <div class="t-icon"><i class="fas fa-horse"></i> Лошадь: 1500 сом/день</div>
+              </div>
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">Карта</span></a>
+          </div>
+        </div>
+
+        <div class="route-card" data-cat="trek">
+          <div class="route-img" style="background-image:url('https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=600')">
+            <span class="route-difficulty medium">Средний</span>
+          </div>
+          <div class="route-body">
+            <h3>Каракол — Алтын-Арашан</h3>
+            <div class="route-meta">
+              <span><i class="fas fa-ruler-horizontal"></i> 24 км</span>
+              <span><i class="fas fa-clock"></i> 2 дня</span>
+              <span><i class="fas fa-ruler-vertical"></i> 1760-3600 м</span>
+              <span><i class="fas fa-calendar"></i> Май–Окт.</span>
+            </div>
+            <p style="font-size:.9rem;color:var(--gray);margin-bottom:.85rem">Ущелье, горячие источники Алтын-Арашан, водопады и горные ели.</p>
+            <div class="route-transport-box">
+              <h4><i class="fas fa-bus" style="color:var(--primary)"></i> <span data-i18n="how_to_get">Как добраться до Каракола</span></h4>
+              <p>Бишкек→Каракол: маршрутка 6-7 ч (500 сом).</p>
+              <div class="transport-icons">
+                <div class="t-icon"><i class="fas fa-bus"></i> 500 сом / 7 ч</div>
+                <div class="t-icon"><i class="fas fa-taxi"></i> Такси: 400 сом</div>
+              </div>
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">Карта</span></a>
+          </div>
+        </div>
+
+        <div class="route-card" data-cat="climb" id="lenintrek">
+          <div class="route-img" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600')">
+            <span class="route-difficulty hard">Сложный</span>
+          </div>
+          <div class="route-body">
+            <h3>Восхождение на Пик Ленина (7134 м)</h3>
+            <div class="route-meta">
+              <span><i class="fas fa-clock"></i> 3-4 недели</span>
+              <span><i class="fas fa-ruler-vertical"></i> 3600-7134 м</span>
+              <span><i class="fas fa-calendar"></i> Июль–Авг.</span>
+            </div>
+            <p style="font-size:.9rem;color:var(--gray);margin-bottom:.85rem">Классический маршрут через северный склон. 4 высотных лагеря.</p>
+            <div class="route-transport-box">
+              <h4><i class="fas fa-plane" style="color:var(--primary)"></i> <span data-i18n="how_to_get">Как добраться</span></h4>
+              <p>Бишкек→Ош: самолёт 1 ч + авто до базового лагеря 5-6 ч.</p>
+              <div class="transport-icons">
+                <div class="t-icon"><i class="fas fa-plane"></i> 2000 сом / 1 ч</div>
+                <div class="t-icon"><i class="fas fa-car"></i> Авто 5-6 ч</div>
+              </div>
+            </div>
+            <a href="mountains.html#lenin" class="btn-sm"><i class="fas fa-mountain"></i> Детали вершины</a>
+          </div>
+        </div>
+
+        <div class="route-card" data-cat="culture">
+          <div class="route-img" style="background-image:url('https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=600')">
+            <span class="route-difficulty easy">Лёгкий</span>
+          </div>
+          <div class="route-body">
+            <h3>По следам Великого Шёлкового пути</h3>
+            <div class="route-meta">
+              <span><i class="fas fa-road"></i> Бишкек — Ош</span>
+              <span><i class="fas fa-clock"></i> 7-10 дней</span>
+              <span><i class="fas fa-calendar"></i> Апр.–Окт.</span>
+            </div>
+            <p style="font-size:.9rem;color:var(--gray);margin-bottom:.85rem">Бишкек → Токмок → Кочкор → Нарын → Таш-Рабат → Ош.</p>
+            <div class="route-transport-box">
+              <h4><i class="fas fa-car" style="color:var(--primary)"></i> <span data-i18n="how_to_get">Транспорт</span></h4>
+              <p>Аренда машины или тур с водителем-гидом.</p>
+              <div class="transport-icons">
+                <div class="t-icon"><i class="fas fa-car"></i> Аренда авто</div>
+                <div class="t-icon"><i class="fas fa-bus"></i> Местные маршрутки</div>
+              </div>
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">Карта</span></a>
+          </div>
+        </div>
+
+        <div class="route-card" data-cat="trek easy">
+          <div class="route-img" style="background-image:url('https://images.unsplash.com/photo-1418985991508-e47386d96a71?w=600')">
+            <span class="route-difficulty easy">Лёгкий</span>
+          </div>
+          <div class="route-body">
+            <h3>Арстанбап — Большой водопад</h3>
+            <div class="route-meta">
+              <span><i class="fas fa-ruler-horizontal"></i> 8 км</span>
+              <span><i class="fas fa-clock"></i> 4-5 ч</span>
+              <span><i class="fas fa-ruler-vertical"></i> 1600-2000 м</span>
+              <span><i class="fas fa-calendar"></i> Май–Сент.</span>
+            </div>
+            <p style="font-size:.9rem;color:var(--gray);margin-bottom:.85rem">Прогулка через ореховый лес к водопаду (80 м). Подходит для семей.</p>
+            <div class="route-transport-box">
+              <h4><i class="fas fa-bus" style="color:var(--primary)"></i> <span data-i18n="how_to_get">Как добраться</span></h4>
+              <p>Бишкек→Жалал-Абад (9-11 ч) → Арстанбап (2 ч маршрутка).</p>
+              <div class="transport-icons">
+                <div class="t-icon"><i class="fas fa-bus"></i> 700 сом / 11 ч</div>
+                <div class="t-icon"><i class="fas fa-taxi"></i> Местное такси</div>
+              </div>
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">Карта</span></a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ПЛАНИРОВЩИК -->
+      <div style="background:var(--light);border-radius:var(--radius);padding:2.5rem;margin-top:3rem">
+        <h2 style="margin-bottom:1.5rem;font-size:1.4rem"><i class="fas fa-map-marked-alt" style="color:var(--primary)"></i> <span data-i18n="sec_plan">Планировщик маршрута</span></h2>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:1rem;align-items:end">
+          <div class="form-row" style="margin:0"><label data-i18n="plan_from">Откуда</label>
+            <select id="from"><option>Бишкек</option><option>Ош</option><option>Каракол</option><option>Нарын</option></select>
+          </div>
+          <div class="form-row" style="margin:0"><label data-i18n="plan_to">Куда</label>
+            <select id="to"><option>Иссык-Куль</option><option>Ала-Арча</option><option>Сон-Куль</option><option>Пик Ленина (БЛ)</option><option>Каньон Сказка</option><option>Арстанбап</option></select>
+          </div>
+          <div class="form-row" style="margin:0"><label data-i18n="plan_transport">Транспорт</label>
+            <select id="transport"><option>Автобус</option><option>Такси/Авто</option><option>Самолёт + авто</option><option>Конный тур</option></select>
+          </div>
+          <button class="btn btn-primary" onclick="quickPlan()" style="height:44px;padding:.6rem 1.5rem">
+            <i class="fas fa-search-location"></i> <span data-i18n="plan_btn">Найти</span>
+          </button>
+        </div>
+        <div id="planResult" class="plan-result" style="margin-top:1.25rem"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><div class="logo"><i class="fas fa-mountain"></i> <strong>VisitKyrgyzstan</strong></div><p data-i18n="footer_tagline">Ваш надёжный путеводитель.</p></div>
+        <div class="footer-col"><h4 data-i18n="footer_nav">Навигация</h4><ul>
+          <li><a href="index.html" data-i18n="nav_home">Главная</a></li><li><a href="places.html" data-i18n="nav_places">Места</a></li>
+          <li><a href="mountains.html" data-i18n="nav_mountains">Горы</a></li><li><a href="routes.html" data-i18n="nav_routes">Маршруты</a></li>
+          <li><a href="map.html" data-i18n="nav_map">Карта</a></li><li><a href="reviews.html" data-i18n="nav_reviews">Отзывы</a></li>
+        </ul></div>
+        <div class="footer-col"><h4 data-i18n="footer_contact">Контакты</h4><p><i class="fas fa-envelope"></i> info@visit-kyrgyzstan.kg</p><p><i class="fas fa-phone"></i> +996 312 000 000</p></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 VisitKyrgyzstan. <span data-i18n="footer_copy">Все права защищены.</span></p></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+  <script src="translations.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

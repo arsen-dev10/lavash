@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Достопримечательности Кыргызстана</title>
+  <meta name="description" content="Все достопримечательности Кыргызстана: Иссык-Куль, Сон-Куль, Каньон Сказка, Ош, Арстанбап." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <div class="logo"><i class="fas fa-mountain"></i><span>Visit<strong>Kyrgyzstan</strong></span></div>
+      <nav class="nav" id="mainNav">
+        <a href="index.html"><i class="fas fa-home"></i> <span data-i18n="nav_home">Главная</span></a>
+        <a href="places.html" class="active"><i class="fas fa-map-marker-alt"></i> <span data-i18n="nav_places">Места</span></a>
+        <a href="mountains.html"><i class="fas fa-mountain"></i> <span data-i18n="nav_mountains">Горы</span></a>
+        <a href="routes.html"><i class="fas fa-route"></i> <span data-i18n="nav_routes">Маршруты</span></a>
+        <a href="map.html"><i class="fas fa-map"></i> <span data-i18n="nav_map">Карта</span></a>
+        <a href="reviews.html"><i class="fas fa-star"></i> <span data-i18n="nav_reviews">Отзывы</span></a>
+      </nav>
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="ky" onclick="setLang('ky')">KY</button>
+      </div>
+      <button class="burger" id="burger"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <section class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=1400');background-size:cover;background-position:center;">
+    <div class="overlay"></div>
+    <div class="page-hero-content">
+      <h1><i class="fas fa-map-marker-alt"></i> <span data-i18n="places_title">Достопримечательности</span></h1>
+      <p data-i18n="places_sub">Откройте лучшие места Кыргызстана</p>
+    </div>
+  </section>
+
+  <!-- ПОИСК -->
+  <section class="search-section">
+    <div class="container">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <div class="search-wrapper">
+          <input type="text" id="globalSearch" data-i18n-placeholder="search_placeholder" placeholder="Поиск мест, маршрутов, гор..." autocomplete="off" />
+          <div class="search-dropdown" id="searchDropdown"></div>
+        </div>
+        <button onclick="doSearch()" data-i18n="search_btn">Найти</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html" data-i18n="nav_home">Главная</a>
+        <i class="fas fa-chevron-right"></i>
+        <span data-i18n="nav_places">Места</span>
+      </div>
+
+      <div class="places-filter-bar">
+        <strong>Filter:</strong>
+        <div class="filter-group" id="filterGroup">
+          <button class="filter-btn active" data-filter="all" data-i18n="filter_all">Все</button>
+          <button class="filter-btn" data-filter="lake" data-i18n="filter_lake">🌊 Озёра</button>
+          <button class="filter-btn" data-filter="gorge" data-i18n="filter_gorge">🌲 Ущелья</button>
+          <button class="filter-btn" data-filter="canyon" data-i18n="filter_canyon">🏜️ Каньоны</button>
+          <button class="filter-btn" data-filter="culture" data-i18n="filter_culture">🏛️ Культура</button>
+          <button class="filter-btn" data-filter="forest" data-i18n="filter_forest">🌳 Леса</button>
+          <button class="filter-btn" data-filter="city" data-i18n="filter_city">🏙️ Города</button>
+        </div>
+      </div>
+
+      <div class="places-grid" id="placesGrid">
+
+        <div class="place-card" id="issykkul" data-cat="lake">
+          <div class="place-img" style="background-image:url('https://images.unsplash.com/photo-1439066615861-d1af74d74000?w=600')">
+            <span class="badge">Озеро</span>
+            <button class="save-btn" onclick="savePlace(this,'Иссык-Куль')"><i class="fas fa-bookmark"></i></button>
+          </div>
+          <div class="place-body">
+            <h3>Иссык-Куль</h3>
+            <p>Второе по величине горное озеро в мире (6236 км²). Бирюзовая вода, пляжи и горные пики вокруг.</p>
+            <div class="place-meta"><span><i class="fas fa-map-marker-alt"></i> Иссык-Кульская обл.</span><span class="stars">★★★★★</span></div>
+            <div class="place-transport">
+              <strong data-i18n="how_to_get">Как добраться:</strong><br>
+              <i class="fas fa-bus"></i> Автобус из Бишкека: 4-5 ч (300-500 сом)<br>
+              <i class="fas fa-car"></i> Машина: 3-4 ч · <i class="fas fa-taxi"></i> Такси: 2000-3000 сом
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            <a href="reviews.html" class="btn-sm" style="background:var(--green);margin-left:.5rem"><i class="fas fa-star"></i> <span data-i18n="btn_reviews">Отзывы</span></a>
+          </div>
+        </div>
+
+        <div class="place-card" id="alaarcha" data-cat="gorge">
+          <div class="place-img" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=600')">
+            <span class="badge">Заповедник</span>
+            <button class="save-btn" onclick="savePlace(this,'Ала-Арча')"><i class="fas fa-bookmark"></i></button>
+          </div>
+          <div class="place-body">
+            <h3>Ала-Арча</h3>
+            <p>Национальный природный парк в 40 км от Бишкека. Водопад Ак-Сай, ледники, тропы.</p>
+            <div class="place-meta"><span><i class="fas fa-map-marker-alt"></i> Чуйская обл.</span><span class="stars">★★★★★</span></div>
+            <div class="place-transport">
+              <strong data-i18n="how_to_get">Как добраться:</strong><br>
+              <i class="fas fa-bus"></i> Маршрутка №265: 1 ч (60 сом)<br>
+              <i class="fas fa-taxi"></i> Такси: 600-800 сом · <i class="fas fa-car"></i> Машина: 40 мин
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            <a href="reviews.html" class="btn-sm" style="background:var(--green);margin-left:.5rem"><i class="fas fa-star"></i> <span data-i18n="btn_reviews">Отзывы</span></a>
+          </div>
+        </div>
+
+        <div class="place-card" id="sonkul" data-cat="lake">
+          <div class="place-img" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600')">
+            <span class="badge">Озеро</span>
+            <button class="save-btn" onclick="savePlace(this,'Сон-Куль')"><i class="fas fa-bookmark"></i></button>
+          </div>
+          <div class="place-body">
+            <h3>Сон-Куль</h3>
+            <p>Высокогорное озеро 3016 м. Юрточные лагеря, кумыс, незабываемые закаты.</p>
+            <div class="place-meta"><span><i class="fas fa-map-marker-alt"></i> Нарынская обл.</span><span class="stars">★★★★★</span></div>
+            <div class="place-transport">
+              <strong data-i18n="how_to_get">Как добраться:</strong><br>
+              <i class="fas fa-bus"></i> До Кочкора: 3 ч (180 сом) + авто<br>
+              <i class="fas fa-horse"></i> Верхом из Кочкора: 1 день
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            <a href="reviews.html" class="btn-sm" style="background:var(--green);margin-left:.5rem"><i class="fas fa-star"></i> <span data-i18n="btn_reviews">Отзывы</span></a>
+          </div>
+        </div>
+
+        <div class="place-card" id="skazka" data-cat="canyon">
+          <div class="place-img" style="background-image:url('https://images.unsplash.com/photo-1548032885-b5e38734688a?w=600')">
+            <span class="badge">Каньон</span>
+            <button class="save-btn" onclick="savePlace(this,'Каньон Сказка')"><i class="fas fa-bookmark"></i></button>
+          </div>
+          <div class="place-body">
+            <h3>Каньон Сказка</h3>
+            <p>«Кыргызский Гранд-Каньон». Красные скалы у берега Иссык-Куля.</p>
+            <div class="place-meta"><span><i class="fas fa-map-marker-alt"></i> 100 км от Каракола</span><span class="stars">★★★★☆</span></div>
+            <div class="place-transport">
+              <strong data-i18n="how_to_get">Как добраться:</strong><br>
+              <i class="fas fa-car"></i> Машина из Каракола: 1.5 ч<br>
+              <i class="fas fa-taxi"></i> Такси: ~1500 сом
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            <a href="reviews.html" class="btn-sm" style="background:var(--green);margin-left:.5rem"><i class="fas fa-star"></i> <span data-i18n="btn_reviews">Отзывы</span></a>
+          </div>
+        </div>
+
+        <div class="place-card" id="arstanbap" data-cat="forest">
+          <div class="place-img" style="background-image:url('https://images.unsplash.com/photo-1418985991508-e47386d96a71?w=600')">
+            <span class="badge">Лес</span>
+            <button class="save-btn" onclick="savePlace(this,'Арстанбап')"><i class="fas fa-bookmark"></i></button>
+          </div>
+          <div class="place-body">
+            <h3>Арстанбап</h3>
+            <p>Один из крупнейших ореховых лесов в мире (60 000 га). Водопады, гостевые дома.</p>
+            <div class="place-meta"><span><i class="fas fa-map-marker-alt"></i> Жалал-Абадская обл.</span><span class="stars">★★★★☆</span></div>
+            <div class="place-transport">
+              <strong data-i18n="how_to_get">Как добраться:</strong><br>
+              <i class="fas fa-bus"></i> Из Жалал-Абада: 2 ч (150 сом)<br>
+              <i class="fas fa-taxi"></i> Такси: ~1000 сом
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            <a href="reviews.html" class="btn-sm" style="background:var(--green);margin-left:.5rem"><i class="fas fa-star"></i> <span data-i18n="btn_reviews">Отзывы</span></a>
+          </div>
+        </div>
+
+        <div class="place-card" id="osh" data-cat="culture city">
+          <div class="place-img" style="background-image:url('https://images.unsplash.com/photo-1547036967-23d11aacaee0?w=600')">
+            <span class="badge">Город</span>
+            <button class="save-btn" onclick="savePlace(this,'Ош')"><i class="fas fa-bookmark"></i></button>
+          </div>
+          <div class="place-body">
+            <h3>Ош — Южная столица</h3>
+            <p>Один из древнейших городов Центральной Азии (3000+ лет). Сулайман-Тоо, базар.</p>
+            <div class="place-meta"><span><i class="fas fa-map-marker-alt"></i> Ошская область</span><span class="stars">★★★★☆</span></div>
+            <div class="place-transport">
+              <strong data-i18n="how_to_get">Как добраться:</strong><br>
+              <i class="fas fa-plane"></i> Самолёт из Бишкека: 1 ч (от 1500 сом)<br>
+              <i class="fas fa-bus"></i> Ночной автобус: 10-12 ч
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            <a href="reviews.html" class="btn-sm" style="background:var(--green);margin-left:.5rem"><i class="fas fa-star"></i> <span data-i18n="btn_reviews">Отзывы</span></a>
+          </div>
+        </div>
+
+        <div class="place-card" id="konorchek" data-cat="canyon">
+          <div class="place-img" style="background-image:url('https://images.unsplash.com/photo-1501854140801-50d01698950b?w=600')">
+            <span class="badge">Каньон</span>
+            <button class="save-btn" onclick="savePlace(this,'Каньон Конорчек')"><i class="fas fa-bookmark"></i></button>
+          </div>
+          <div class="place-body">
+            <h3>Каньон Конорчек</h3>
+            <p>Живописный каньон с красными скалами в 2 часах от Бишкека.</p>
+            <div class="place-meta"><span><i class="fas fa-map-marker-alt"></i> Чуйская обл.</span><span class="stars">★★★★☆</span></div>
+            <div class="place-transport">
+              <strong data-i18n="how_to_get">Как добраться:</strong><br>
+              <i class="fas fa-car"></i> Машина из Бишкека: 1.5-2 ч<br>
+              <i class="fas fa-taxi"></i> Такси: 2000-3000 сом (туда-обратно)
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            <a href="reviews.html" class="btn-sm" style="background:var(--green);margin-left:.5rem"><i class="fas fa-star"></i> <span data-i18n="btn_reviews">Отзывы</span></a>
+          </div>
+        </div>
+
+        <div class="place-card" id="sarychelek" data-cat="lake forest">
+          <div class="place-img" style="background-image:url('https://images.unsplash.com/photo-1426604966848-d7adac402bff?w=600')">
+            <span class="badge">Озеро</span>
+            <button class="save-btn" onclick="savePlace(this,'Сары-Чeлек')"><i class="fas fa-bookmark"></i></button>
+          </div>
+          <div class="place-body">
+            <h3>Сары-Чeлек</h3>
+            <p>Кристально чистое озеро в ореховых лесах. Биосферный заповедник ЮНЕСКО.</p>
+            <div class="place-meta"><span><i class="fas fa-map-marker-alt"></i> Жалал-Абадская обл.</span><span class="stars">★★★★★</span></div>
+            <div class="place-transport">
+              <strong data-i18n="how_to_get">Как добраться:</strong><br>
+              <i class="fas fa-bus"></i> До Таш-Кумыра: 6 ч + авто 1.5 ч<br>
+              <i class="fas fa-car"></i> Полный маршрут: 7-8 ч
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            <a href="reviews.html" class="btn-sm" style="background:var(--green);margin-left:.5rem"><i class="fas fa-star"></i> <span data-i18n="btn_reviews">Отзывы</span></a>
+          </div>
+        </div>
+
+        <div class="place-card" id="talas" data-cat="culture">
+          <div class="place-img" style="background-image:url('https://images.unsplash.com/photo-1414609245224-afa02bfb3fda?w=600')">
+            <span class="badge">Культура</span>
+            <button class="save-btn" onclick="savePlace(this,'Таласская долина')"><i class="fas fa-bookmark"></i></button>
+          </div>
+          <div class="place-body">
+            <h3>Таласская долина</h3>
+            <p>Родина эпоса «Манас». Мавзолей богатыря и место Таласской битвы 751 года.</p>
+            <div class="place-meta"><span><i class="fas fa-map-marker-alt"></i> Таласская обл.</span><span class="stars">★★★★☆</span></div>
+            <div class="place-transport">
+              <strong data-i18n="how_to_get">Как добраться:</strong><br>
+              <i class="fas fa-bus"></i> Автобус из Бишкека: 4-5 ч (250 сом)<br>
+              <i class="fas fa-taxi"></i> Такси: 2500 сом
+            </div>
+            <a href="map.html" class="btn-sm"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            <a href="reviews.html" class="btn-sm" style="background:var(--green);margin-left:.5rem"><i class="fas fa-star"></i> <span data-i18n="btn_reviews">Отзывы</span></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><div class="logo"><i class="fas fa-mountain"></i> <strong>VisitKyrgyzstan</strong></div><p data-i18n="footer_tagline">Ваш надёжный путеводитель.</p></div>
+        <div class="footer-col"><h4 data-i18n="footer_nav">Навигация</h4><ul>
+          <li><a href="index.html" data-i18n="nav_home">Главная</a></li>
+          <li><a href="places.html" data-i18n="nav_places">Места</a></li>
+          <li><a href="mountains.html" data-i18n="nav_mountains">Горы</a></li>
+          <li><a href="routes.html" data-i18n="nav_routes">Маршруты</a></li>
+          <li><a href="map.html" data-i18n="nav_map">Карта</a></li>
+          <li><a href="reviews.html" data-i18n="nav_reviews">Отзывы</a></li>
+        </ul></div>
+        <div class="footer-col"><h4 data-i18n="footer_contact">Контакты</h4><p><i class="fas fa-envelope"></i> info@visit-kyrgyzstan.kg</p><p><i class="fas fa-phone"></i> +996 312 000 000</p></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 VisitKyrgyzstan. <span data-i18n="footer_copy">Все права защищены.</span></p></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+  <script src="translations.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

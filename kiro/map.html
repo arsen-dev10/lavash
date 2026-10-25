@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Интерактивная карта Кыргызстана</title>
+  <meta name="description" content="Интерактивная карта туристических мест Кыргызстана. Горы, озёра, маршруты на одной карте." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <style>
+    #map { height: 540px; width: 100%; border-radius: var(--radius); z-index: 1; }
+    .leaflet-popup-content-wrapper { border-radius: 12px !important; box-shadow: 0 8px 32px rgba(0,0,0,.18) !important; }
+    .leaflet-popup-content { font-family:'Segoe UI',sans-serif; font-size:.9rem; min-width:200px; }
+    .popup-title { font-weight:700; font-size:1rem; color:#1e293b; margin-bottom:.4rem; }
+    .popup-type  { font-size:.78rem; background:#dbeafe; color:#1e40af; padding:.2rem .6rem; border-radius:50px; display:inline-block; margin-bottom:.5rem; }
+    .popup-desc  { font-size:.85rem; color:#64748b; margin-bottom:.6rem; }
+    .popup-link  { display:inline-flex; align-items:center; gap:.3rem; color:#2563eb; font-weight:600; font-size:.85rem; }
+    .popup-link:hover { text-decoration:underline; }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <div class="logo"><i class="fas fa-mountain"></i><span>Visit<strong>Kyrgyzstan</strong></span></div>
+      <nav class="nav" id="mainNav">
+        <a href="index.html"><i class="fas fa-home"></i> <span data-i18n="nav_home">Главная</span></a>
+        <a href="places.html"><i class="fas fa-map-marker-alt"></i> <span data-i18n="nav_places">Места</span></a>
+        <a href="mountains.html"><i class="fas fa-mountain"></i> <span data-i18n="nav_mountains">Горы</span></a>
+        <a href="routes.html"><i class="fas fa-route"></i> <span data-i18n="nav_routes">Маршруты</span></a>
+        <a href="map.html" class="active"><i class="fas fa-map"></i> <span data-i18n="nav_map">Карта</span></a>
+        <a href="reviews.html"><i class="fas fa-star"></i> <span data-i18n="nav_reviews">Отзывы</span></a>
+      </nav>
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="ky" onclick="setLang('ky')">KY</button>
+      </div>
+      <button class="burger" id="burger"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <section class="page-hero" style="background:linear-gradient(135deg,#0f2027,#2c5364);padding-top:66px;height:240px">
+    <div class="page-hero-content">
+      <h1><i class="fas fa-map"></i> <span data-i18n="map_title">Интерактивная карта</span></h1>
+      <p data-i18n="map_sub">Все туристические точки Кыргызстана на одной карте</p>
+    </div>
+  </section>
+
+  <!-- ПОИСК -->
+  <section class="search-section">
+    <div class="container">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <div class="search-wrapper">
+          <input type="text" id="globalSearch" data-i18n-placeholder="search_placeholder" placeholder="Поиск..." autocomplete="off" />
+          <div class="search-dropdown" id="searchDropdown"></div>
+        </div>
+        <button onclick="doSearch()" data-i18n="search_btn">Найти</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html" data-i18n="nav_home">Главная</a>
+        <i class="fas fa-chevron-right"></i>
+        <span data-i18n="nav_map">Карта</span>
+      </div>
+
+      <div style="display:flex;gap:.75rem;flex-wrap:wrap;margin-bottom:1.25rem;align-items:center">
+        <strong style="font-size:.9rem" data-i18n="show">Показать:</strong>
+        <button class="filter-btn active" onclick="filterMap('all',this)" data-i18n="map_all">Все</button>
+        <button class="filter-btn" onclick="filterMap('mountain',this)"><i class="fas fa-mountain"></i> <span data-i18n="nav_mountains">Горы</span></button>
+        <button class="filter-btn" onclick="filterMap('lake',this)"><i class="fas fa-water"></i> <span data-i18n="filter_lake">Озёра</span></button>
+        <button class="filter-btn" onclick="filterMap('culture',this)"><i class="fas fa-landmark"></i> <span data-i18n="filter_culture">Культура</span></button>
+        <button class="filter-btn" onclick="filterMap('nature',this)"><i class="fas fa-tree"></i> <span data-i18n="filter_forest">Природа</span></button>
+      </div>
+
+      <div class="map-container" style="padding:0">
+        <div id="map"></div>
+        <div class="map-legend" style="border-top:1px solid #e2e8f0">
+          <h3 data-i18n="legend_title">Легенда</h3>
+          <div class="legend-items">
+            <div class="legend-item"><div class="legend-dot dot-mountain"></div> <span data-i18n="leg_mountain">Горы и вершины</span></div>
+            <div class="legend-item"><div class="legend-dot dot-lake"></div> <span data-i18n="leg_lake">Озёра и реки</span></div>
+            <div class="legend-item"><div class="legend-dot dot-culture"></div> <span data-i18n="leg_culture">Культура и история</span></div>
+            <div class="legend-item"><div class="legend-dot dot-nature"></div> <span data-i18n="leg_nature">Природа и парки</span></div>
+          </div>
+        </div>
+      </div>
+
+      <h2 style="margin-top:3rem;margin-bottom:1.5rem;font-size:1.4rem" data-i18n="all_points">Все точки на карте</h2>
+      <div class="map-points-list" id="pointsList">
+        <div class="map-point-card" data-type="lake" onclick="flyTo(42.45,77.0,'Иссык-Куль')"><i class="fas fa-water" style="color:#06b6d4"></i><h4>Иссык-Куль</h4><p>Горное озеро, 6236 км²</p><small>42.45°N, 77.00°E</small></div>
+        <div class="map-point-card" data-type="nature" onclick="flyTo(42.55,74.48,'Ала-Арча')"><i class="fas fa-tree" style="color:#22c55e"></i><h4>Ала-Арча</h4><p>Нац. парк, ущелье</p><small>42.55°N, 74.48°E</small></div>
+        <div class="map-point-card" data-type="mountain" onclick="flyTo(39.73,72.82,'Пик Ленина')"><i class="fas fa-mountain" style="color:#3b82f6"></i><h4>Пик Ленина</h4><p>7134 м, семитысячник</p><small>39.73°N, 72.82°E</small></div>
+        <div class="map-point-card" data-type="mountain" onclick="flyTo(42.21,80.17,'Хан-Тенгри')"><i class="fas fa-mountain" style="color:#3b82f6"></i><h4>Хан-Тенгри</h4><p>6995 м, Тянь-Шань</p><small>42.21°N, 80.17°E</small></div>
+        <div class="map-point-card" data-type="lake" onclick="flyTo(41.82,75.12,'Сон-Куль')"><i class="fas fa-water" style="color:#06b6d4"></i><h4>Сон-Куль</h4><p>Высокогорное озеро, 3016 м</p><small>41.82°N, 75.12°E</small></div>
+        <div class="map-point-card" data-type="culture" onclick="flyTo(40.52,72.79,'Ош')"><i class="fas fa-landmark" style="color:#f59e0b"></i><h4>Ош</h4><p>Древний город, 3000 лет</p><small>40.52°N, 72.79°E</small></div>
+        <div class="map-point-card" data-type="nature" onclick="flyTo(42.5,78.4,'Каньон Сказка')"><i class="fas fa-tree" style="color:#22c55e"></i><h4>Каньон Сказка</h4><p>Красные скалы у озера</p><small>42.50°N, 78.40°E</small></div>
+        <div class="map-point-card" data-type="nature" onclick="flyTo(41.5,72.93,'Арстанбап')"><i class="fas fa-tree" style="color:#22c55e"></i><h4>Арстанбап</h4><p>Ореховый лес, водопад</p><small>41.50°N, 72.93°E</small></div>
+        <div class="map-point-card" data-type="lake" onclick="flyTo(41.77,71.45,'Сары-Чeлек')"><i class="fas fa-water" style="color:#06b6d4"></i><h4>Сары-Чeлек</h4><p>Заповедник ЮНЕСКО</p><small>41.77°N, 71.45°E</small></div>
+        <div class="map-point-card" data-type="culture" onclick="flyTo(42.84,71.36,'Талас')"><i class="fas fa-landmark" style="color:#f59e0b"></i><h4>Таласская долина</h4><p>Родина Манаса</p><small>42.84°N, 71.36°E</small></div>
+        <div class="map-point-card" data-type="mountain" onclick="flyTo(42.44,78.95,'Каракол')"><i class="fas fa-mountain" style="color:#3b82f6"></i><h4>Каракол</h4><p>Горный курорт</p><small>42.44°N, 78.95°E</small></div>
+        <div class="map-point-card" data-type="culture" onclick="flyTo(42.87,74.59,'Бишкек')"><i class="fas fa-city" style="color:#f59e0b"></i><h4>Бишкек</h4><p>Столица Кыргызстана</p><small>42.87°N, 74.59°E</small></div>
+      </div>
+
+      <div style="margin-top:3rem">
+        <h2 style="margin-bottom:1.25rem;font-size:1.3rem"><i class="fas fa-map" style="color:var(--primary)"></i> Google Maps</h2>
+        <div style="border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)">
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2938285.7!2d74.5!3d41.2!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389c7aebe99d11c3%3A0x9e7f5fe35f0b0b1f!2sKyrgyzstan!5e0!3m2!1sru!2skg!4v1700000000000!5m2!1sru!2skg"
+            width="100%" height="450" style="border:0;display:block" allowfullscreen="" loading="lazy" title="Карта Кыргызстана"></iframe>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><div class="logo"><i class="fas fa-mountain"></i> <strong>VisitKyrgyzstan</strong></div><p data-i18n="footer_tagline">Ваш путеводитель по Кыргызстану.</p></div>
+        <div class="footer-col"><h4 data-i18n="footer_nav">Навигация</h4><ul>
+          <li><a href="index.html" data-i18n="nav_home">Главная</a></li><li><a href="places.html" data-i18n="nav_places">Места</a></li>
+          <li><a href="mountains.html" data-i18n="nav_mountains">Горы</a></li><li><a href="routes.html" data-i18n="nav_routes">Маршруты</a></li>
+          <li><a href="map.html" data-i18n="nav_map">Карта</a></li><li><a href="reviews.html" data-i18n="nav_reviews">Отзывы</a></li>
+        </ul></div>
+        <div class="footer-col"><h4 data-i18n="footer_contact">Контакты</h4><p><i class="fas fa-envelope"></i> info@visit-kyrgyzstan.kg</p><p><i class="fas fa-phone"></i> +996 312 000 000</p></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 VisitKyrgyzstan. <span data-i18n="footer_copy">Все права защищены.</span></p></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+  <script src="translations.js"></script>
+  <script src="main.js"></script>
+  <script>
+  const map = L.map('map').setView([41.5,75.0],6);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap',maxZoom:18}).addTo(map);
+  const typeColors={mountain:'#3b82f6',lake:'#06b6d4',culture:'#f59e0b',nature:'#22c55e'};
+  function colorMarker(c){return L.divIcon({html:`<div style="width:16px;height:16px;border-radius:50%;background:${c};border:3px solid white;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div>`,className:'',iconSize:[16,16],iconAnchor:[8,8],popupAnchor:[0,-10]});}
+  const pts=[
+    {lat:42.87,lng:74.59,name:'Бишкек',type:'culture',desc:'Столица Кыргызстана',link:'places.html'},
+    {lat:42.45,lng:77.0,name:'Иссык-Куль',type:'lake',desc:'Горное озеро не замерзает',link:'places.html#issykkul'},
+    {lat:42.55,lng:74.48,name:'Ала-Арча',type:'nature',desc:'Нац. парк, ущелья и водопады',link:'places.html#alaarcha'},
+    {lat:39.73,lng:72.82,name:'Пик Ленина',type:'mountain',desc:'7134 м — семитысячник',link:'mountains.html#lenin'},
+    {lat:42.21,lng:80.17,name:'Хан-Тенгри',type:'mountain',desc:'6995 м — Повелитель неба',link:'mountains.html#khantengri'},
+    {lat:41.82,lng:75.12,name:'Сон-Куль',type:'lake',desc:'Высокогорное озеро, 3016 м',link:'places.html#sonkul'},
+    {lat:40.52,lng:72.79,name:'Ош',type:'culture',desc:'Город трёх тысяч лет',link:'places.html#osh'},
+    {lat:42.50,lng:78.40,name:'Каньон Сказка',type:'nature',desc:'Красные скалы Иссык-Куля',link:'places.html#skazka'},
+    {lat:41.50,lng:72.93,name:'Арстанбап',type:'nature',desc:'Ореховый лес ЮНЕСКО',link:'places.html#arstanbap'},
+    {lat:41.77,lng:71.45,name:'Сары-Чeлек',type:'lake',desc:'Озеро в заповеднике',link:'places.html#sarychelek'},
+    {lat:42.84,lng:71.36,name:'Талас',type:'culture',desc:'Родина эпоса Манас',link:'places.html#talas'},
+    {lat:42.44,lng:78.95,name:'Каракол',type:'mountain',desc:'Горный курорт и треккинг',link:'routes.html'},
+    {lat:41.20,lng:72.98,name:'Жалал-Абад',type:'culture',desc:'Термальные источники',link:'places.html'},
+    {lat:41.42,lng:75.99,name:'Нарын',type:'culture',desc:'Горный город, Шёлковый путь',link:'places.html'},
+  ];
+  let allMarkers=[];
+  pts.forEach(p=>{
+    const m=L.marker([p.lat,p.lng],{icon:colorMarker(typeColors[p.type])}).addTo(map)
+      .bindPopup(`<div class="popup-title">${p.name}</div><span class="popup-type">${p.type==='mountain'?'🏔️ Гора':p.type==='lake'?'🌊 Озеро':p.type==='culture'?'🏛️ Культура':'🌲 Природа'}</span><div class="popup-desc">${p.desc}</div><a class="popup-link" href="${p.link}"><i class="fas fa-external-link-alt"></i> Подробнее</a>`);
+    m._type=p.type; m._name=p.name; allMarkers.push(m);
+  });
+  function flyTo(lat,lng,name){
+    map.flyTo([lat,lng],10,{animate:true,duration:1.2});
+    allMarkers.forEach(m=>{if(m._name===name)setTimeout(()=>m.openPopup(),1200);});
+    document.getElementById('map').scrollIntoView({behavior:'smooth',block:'center'});
+  }
+  function filterMap(type,btn){
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    allMarkers.forEach(m=>{type==='all'||m._type===type?m.addTo(map):map.removeLayer(m);});
+    document.querySelectorAll('.map-point-card').forEach(c=>{c.style.display=(type==='all'||c.dataset.type===type)?'':'none';});
+  }
+  </script>
+</body>
+</html>

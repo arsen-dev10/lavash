@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Отзывы туристов о Кыргызстане</title>
+  <meta name="description" content="Читайте отзывы туристов о Кыргызстане. Оставьте свой отзыв." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <div class="logo"><i class="fas fa-mountain"></i><span>Visit<strong>Kyrgyzstan</strong></span></div>
+      <nav class="nav" id="mainNav">
+        <a href="index.html"><i class="fas fa-home"></i> <span data-i18n="nav_home">Главная</span></a>
+        <a href="places.html"><i class="fas fa-map-marker-alt"></i> <span data-i18n="nav_places">Места</span></a>
+        <a href="mountains.html"><i class="fas fa-mountain"></i> <span data-i18n="nav_mountains">Горы</span></a>
+        <a href="routes.html"><i class="fas fa-route"></i> <span data-i18n="nav_routes">Маршруты</span></a>
+        <a href="map.html"><i class="fas fa-map"></i> <span data-i18n="nav_map">Карта</span></a>
+        <a href="reviews.html" class="active"><i class="fas fa-star"></i> <span data-i18n="nav_reviews">Отзывы</span></a>
+      </nav>
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="ky" onclick="setLang('ky')">KY</button>
+      </div>
+      <button class="burger" id="burger"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <section class="page-hero" style="background:linear-gradient(135deg,#1e3a5f,#2563eb);padding-top:66px;height:280px">
+    <div class="page-hero-content">
+      <h1><i class="fas fa-star"></i> <span data-i18n="reviews_title">Отзывы путешественников</span></h1>
+      <p data-i18n="reviews_sub">Поделитесь опытом и читайте отзывы других</p>
+    </div>
+  </section>
+
+  <!-- ПОИСК -->
+  <section class="search-section">
+    <div class="container">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <div class="search-wrapper">
+          <input type="text" id="globalSearch" data-i18n-placeholder="search_placeholder" placeholder="Поиск..." autocomplete="off" />
+          <div class="search-dropdown" id="searchDropdown"></div>
+        </div>
+        <button onclick="doSearch()" data-i18n="search_btn">Найти</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html" data-i18n="nav_home">Главная</a>
+        <i class="fas fa-chevron-right"></i>
+        <span data-i18n="nav_reviews">Отзывы</span>
+      </div>
+
+      <!-- СТАТИСТИКА -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:3rem">
+        <div style="background:var(--light);border-radius:var(--radius);padding:1.5rem;text-align:center">
+          <div id="totalCount" style="font-size:2rem;font-weight:800;color:var(--primary)">0</div>
+          <div style="color:var(--gray);font-size:.9rem" data-i18n="total_reviews">Отзывов</div>
+        </div>
+        <div style="background:var(--light);border-radius:var(--radius);padding:1.5rem;text-align:center">
+          <div id="avgRating" style="font-size:2rem;font-weight:800;color:#f59e0b">—</div>
+          <div style="color:var(--gray);font-size:.9rem" data-i18n="avg_rating">Средний рейтинг</div>
+        </div>
+        <div style="background:var(--light);border-radius:var(--radius);padding:1.5rem;text-align:center">
+          <div id="topPlace" style="font-size:1.1rem;font-weight:800;color:var(--green)">—</div>
+          <div style="color:var(--gray);font-size:.9rem" data-i18n="popular_place">Популярное место</div>
+        </div>
+        <div style="background:var(--light);border-radius:var(--radius);padding:1.5rem;text-align:center">
+          <div id="fiveStarCount" style="font-size:2rem;font-weight:800;color:var(--primary)">0</div>
+          <div style="color:var(--gray);font-size:.9rem" data-i18n="five_star">Отзывов 5★</div>
+        </div>
+      </div>
+
+      <!-- ФОРМА -->
+      <div class="review-form-box">
+        <h2><i class="fas fa-pen" style="color:var(--primary)"></i> <span data-i18n="form_title">Оставить отзыв</span></h2>
+        <div class="form-2col">
+          <div class="form-group">
+            <label data-i18n="form_name">Ваше имя</label>
+            <input type="text" id="reviewName" data-i18n-placeholder="form_name" placeholder="Иван Иванов" />
+          </div>
+          <div class="form-group">
+            <label data-i18n="form_country">Страна</label>
+            <input type="text" id="reviewCountry" data-i18n-placeholder="form_country" placeholder="Россия..." />
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_place">Место посещения</label>
+          <select id="reviewPlace">
+            <option value="" data-i18n="form_place_ph">— Выберите место —</option>
+            <option>Иссык-Куль</option><option>Ала-Арча</option><option>Сон-Куль</option>
+            <option>Каньон Сказка</option><option>Пик Ленина</option><option>Хан-Тенгри</option>
+            <option>Ош</option><option>Арстанбап</option><option>Сары-Чeлек</option>
+            <option>Каракол</option><option>Таласская долина</option><option>Другое</option>
+          </select>
+        </div>
+        <div class="form-2col">
+          <div class="form-group">
+            <label data-i18n="form_rating">Оценка</label>
+            <div class="star-rating" id="starRating">
+              <input type="radio" id="s5" name="rating" value="5"><label for="s5">★</label>
+              <input type="radio" id="s4" name="rating" value="4"><label for="s4">★</label>
+              <input type="radio" id="s3" name="rating" value="3"><label for="s3">★</label>
+              <input type="radio" id="s2" name="rating" value="2"><label for="s2">★</label>
+              <input type="radio" id="s1" name="rating" value="1"><label for="s1">★</label>
+            </div>
+          </div>
+          <div class="form-group">
+            <label data-i18n="form_date">Дата посещения</label>
+            <input type="month" id="reviewDate" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_text">Ваш отзыв</label>
+          <textarea id="reviewText" data-i18n-placeholder="form_text_ph" placeholder="Расскажите о впечатлениях..."></textarea>
+        </div>
+        <div class="form-group">
+          <label data-i18n="form_tips">Полезные советы</label>
+          <input type="text" id="reviewTips" data-i18n-placeholder="form_tips_ph" placeholder="Лучшее время для посещения..." />
+        </div>
+        <button class="btn btn-primary" onclick="submitReview()" style="width:100%;justify-content:center;font-size:1rem;padding:1rem">
+          <i class="fas fa-paper-plane"></i> <span data-i18n="form_submit">Опубликовать отзыв</span>
+        </button>
+        <p style="text-align:center;font-size:.82rem;color:var(--gray);margin-top:.75rem">
+          <i class="fas fa-lock"></i> <span data-i18n="form_privacy">Отзывы сохраняются в браузере</span>
+        </p>
+      </div>
+
+      <!-- ВСЕ ОТЗЫВЫ -->
+      <div style="margin-top:3rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem">
+          <h2 style="font-size:1.4rem"><i class="fas fa-comments" style="color:var(--primary)"></i> <span data-i18n="all_reviews">Все отзывы</span></h2>
+          <div style="display:flex;gap:.75rem;align-items:center;flex-wrap:wrap">
+            <select id="filterPlace" onchange="renderReviews()" style="padding:.5rem .85rem;border:2px solid #e2e8f0;border-radius:50px;font-size:.88rem;outline:none">
+              <option value="" data-i18n="filter_allp">Все места</option>
+              <option>Иссык-Куль</option><option>Ала-Арча</option><option>Сон-Куль</option>
+              <option>Каньон Сказка</option><option>Пик Ленина</option><option>Ош</option><option>Арстанбап</option>
+            </select>
+            <select id="filterRating" onchange="renderReviews()" style="padding:.5rem .85rem;border:2px solid #e2e8f0;border-radius:50px;font-size:.88rem;outline:none">
+              <option value="" data-i18n="filter_allr">Все оценки</option>
+              <option value="5">★★★★★</option><option value="4">★★★★</option><option value="3">★★★</option>
+            </select>
+            <select id="sortReviews" onchange="renderReviews()" style="padding:.5rem .85rem;border:2px solid #e2e8f0;border-radius:50px;font-size:.88rem;outline:none">
+              <option value="new" data-i18n="sort_new">Сначала новые</option>
+              <option value="rating" data-i18n="sort_rating">По рейтингу</option>
+            </select>
+          </div>
+        </div>
+        <div class="reviews-wall" id="reviewsWall"></div>
+        <div id="noReviews" style="text-align:center;padding:3rem;color:var(--gray);display:none">
+          <i class="fas fa-comment-slash" style="font-size:3rem;margin-bottom:1rem;opacity:.3"></i>
+          <p data-i18n="no_reviews">Отзывов пока нет. Будьте первым!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><div class="logo"><i class="fas fa-mountain"></i> <strong>VisitKyrgyzstan</strong></div><p data-i18n="footer_tagline">Спасибо за ваш отзыв!</p></div>
+        <div class="footer-col"><h4 data-i18n="footer_nav">Навигация</h4><ul>
+          <li><a href="index.html" data-i18n="nav_home">Главная</a></li><li><a href="places.html" data-i18n="nav_places">Места</a></li>
+          <li><a href="mountains.html" data-i18n="nav_mountains">Горы</a></li><li><a href="routes.html" data-i18n="nav_routes">Маршруты</a></li>
+          <li><a href="map.html" data-i18n="nav_map">Карта</a></li><li><a href="reviews.html" data-i18n="nav_reviews">Отзывы</a></li>
+        </ul></div>
+        <div class="footer-col"><h4 data-i18n="footer_contact">Контакты</h4><p><i class="fas fa-envelope"></i> info@visit-kyrgyzstan.kg</p><p><i class="fas fa-phone"></i> +996 312 000 000</p></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 VisitKyrgyzstan. <span data-i18n="footer_copy">Все права защищены.</span></p></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+  <script src="translations.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

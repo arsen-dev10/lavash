@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Горные красоты Кыргызстана</title>
+  <meta name="description" content="Горы Кыргызстана: Пик Ленина 7134м, Хан-Тенгри 6995м, Победа 7439м. Маршруты восхождений, транспорт." />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+  <header class="header">
+    <div class="container">
+      <div class="logo"><i class="fas fa-mountain"></i><span>Visit<strong>Kyrgyzstan</strong></span></div>
+      <nav class="nav" id="mainNav">
+        <a href="index.html"><i class="fas fa-home"></i> <span data-i18n="nav_home">Главная</span></a>
+        <a href="places.html"><i class="fas fa-map-marker-alt"></i> <span data-i18n="nav_places">Места</span></a>
+        <a href="mountains.html" class="active"><i class="fas fa-mountain"></i> <span data-i18n="nav_mountains">Горы</span></a>
+        <a href="routes.html"><i class="fas fa-route"></i> <span data-i18n="nav_routes">Маршруты</span></a>
+        <a href="map.html"><i class="fas fa-map"></i> <span data-i18n="nav_map">Карта</span></a>
+        <a href="reviews.html"><i class="fas fa-star"></i> <span data-i18n="nav_reviews">Отзывы</span></a>
+      </nav>
+      <div class="lang-switcher" id="langSwitcher">
+        <button class="lang-btn active" data-lang="ru" onclick="setLang('ru')">RU</button>
+        <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+        <button class="lang-btn" data-lang="ky" onclick="setLang('ky')">KY</button>
+      </div>
+      <button class="burger" id="burger"><span></span><span></span><span></span></button>
+    </div>
+  </header>
+
+  <section class="page-hero" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=1400');background-size:cover;background-position:center;">
+    <div class="overlay"></div>
+    <div class="page-hero-content">
+      <h1><i class="fas fa-mountain"></i> <span data-i18n="mountains_title">Горные красоты</span></h1>
+      <p data-i18n="mountains_sub">Тянь-Шань и Памир — крыша Центральной Азии</p>
+    </div>
+  </section>
+
+  <!-- ПОИСК -->
+  <section class="search-section">
+    <div class="container">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <div class="search-wrapper">
+          <input type="text" id="globalSearch" data-i18n-placeholder="search_placeholder" placeholder="Поиск..." autocomplete="off" />
+          <div class="search-dropdown" id="searchDropdown"></div>
+        </div>
+        <button onclick="doSearch()" data-i18n="search_btn">Найти</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html" data-i18n="nav_home">Главная</a>
+        <i class="fas fa-chevron-right"></i>
+        <span data-i18n="nav_mountains">Горы</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-bottom:3rem">
+        <div style="text-align:center;background:var(--light);border-radius:var(--radius);padding:1.5rem"><div style="font-size:2rem;font-weight:800;color:var(--primary)">94</div><div style="color:var(--gray);font-size:.9rem">Пика выше 4000 м</div></div>
+        <div style="text-align:center;background:var(--light);border-radius:var(--radius);padding:1.5rem"><div style="font-size:2rem;font-weight:800;color:var(--primary)">7439</div><div style="color:var(--gray);font-size:.9rem">Высшая точка (Победа)</div></div>
+        <div style="text-align:center;background:var(--light);border-radius:var(--radius);padding:1.5rem"><div style="font-size:2rem;font-weight:800;color:var(--primary)">40%</div><div style="color:var(--gray);font-size:.9rem">Территории — горы</div></div>
+        <div style="text-align:center;background:var(--light);border-radius:var(--radius);padding:1.5rem"><div style="font-size:2rem;font-weight:800;color:var(--primary)">6</div><div style="color:var(--gray);font-size:.9rem">Семитысячников</div></div>
+      </div>
+
+      <div class="mountain-grid">
+
+        <div class="mountain-card" id="lenin">
+          <div class="mountain-img" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800')">
+            <span class="mountain-badge">🏔️ 7134 м • Тянь-Шань</span>
+          </div>
+          <div class="mountain-body">
+            <h2>Пик Ленина</h2>
+            <p>Третий по высоте пик в Кыргызстане — один из наиболее доступных семитысячников мира. Базовый лагерь на 3600 м в Алайской долине.</p>
+            <div class="mountain-info">
+              <div class="info-badge"><i class="fas fa-ruler-vertical"></i> 7134 м</div>
+              <div class="info-badge"><i class="fas fa-calendar"></i> Июль–Август</div>
+              <div class="info-badge"><i class="fas fa-star"></i> <span data-i18n="difficulty">Сложность</span>: Высокая</div>
+              <div class="info-badge"><i class="fas fa-clock"></i> 3-4 нед.</div>
+            </div>
+            <div class="mountain-transport">
+              <h4><i class="fas fa-route" style="color:var(--primary);margin-right:.4rem"></i> <span data-i18n="how_to_reach">Как добраться</span></h4>
+              <ul>
+                <li><i class="fas fa-plane"></i> Самолёт Бишкек→Ош: 1 ч + авто до Сары-Таша: 4 ч</li>
+                <li><i class="fas fa-bus"></i> Ночной автобус Бишкек→Ош: 10-12 ч</li>
+                <li><i class="fas fa-car"></i> От Оша до базового лагеря: 4-5 ч</li>
+              </ul>
+            </div>
+            <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+              <a href="routes.html" class="btn-sm"><i class="fas fa-hiking"></i> Маршрут</a>
+              <a href="map.html" class="btn-sm" style="background:var(--green)"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mountain-card" id="khantengri">
+          <div class="mountain-img" style="background-image:url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800')">
+            <span class="mountain-badge">🏔️ 6995 м • Тянь-Шань</span>
+          </div>
+          <div class="mountain-body">
+            <h2>Хан-Тенгри</h2>
+            <p>«Повелитель неба» — одна из красивейших гор мира. Мраморная пирамида на закате окрашивается в красный цвет.</p>
+            <div class="mountain-info">
+              <div class="info-badge"><i class="fas fa-ruler-vertical"></i> 6995 м</div>
+              <div class="info-badge"><i class="fas fa-calendar"></i> Июль–Август</div>
+              <div class="info-badge"><i class="fas fa-star"></i> <span data-i18n="difficulty">Сложность</span>: Очень высокая</div>
+              <div class="info-badge"><i class="fas fa-clock"></i> 4-5 нед.</div>
+            </div>
+            <div class="mountain-transport">
+              <h4><i class="fas fa-route" style="color:var(--primary);margin-right:.4rem"></i> <span data-i18n="how_to_reach">Как добраться</span></h4>
+              <ul>
+                <li><i class="fas fa-car"></i> Бишкек→Каракол: 3.5 ч машина</li>
+                <li><i class="fas fa-helicopter"></i> Вертолёт до БЛ Майды-Адыр: ~45 мин</li>
+                <li><i class="fas fa-hiking"></i> Пешком до Северного БЛ: 4-5 дней</li>
+              </ul>
+            </div>
+            <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+              <a href="routes.html" class="btn-sm"><i class="fas fa-hiking"></i> Маршрут</a>
+              <a href="map.html" class="btn-sm" style="background:var(--green)"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mountain-card" id="pobeda">
+          <div class="mountain-img" style="background-image:url('https://images.unsplash.com/photo-1418985991508-e47386d96a71?w=800')">
+            <span class="mountain-badge">🏔️ 7439 м • Тянь-Шань</span>
+          </div>
+          <div class="mountain-body">
+            <h2>Пик Победы (Томур)</h2>
+            <p>Высочайшая точка Кыргызстана. Один из наиболее опасных семитысячников — суровый климат и лавинная опасность.</p>
+            <div class="mountain-info">
+              <div class="info-badge"><i class="fas fa-ruler-vertical"></i> 7439 м</div>
+              <div class="info-badge"><i class="fas fa-calendar"></i> Июль–Август</div>
+              <div class="info-badge"><i class="fas fa-star"></i> Экстремальная</div>
+              <div class="info-badge"><i class="fas fa-clock"></i> 5-6 нед.</div>
+            </div>
+            <div class="mountain-transport">
+              <h4><i class="fas fa-route" style="color:var(--primary);margin-right:.4rem"></i> <span data-i18n="how_to_reach">Как добраться</span></h4>
+              <ul>
+                <li><i class="fas fa-car"></i> Бишкек→Каракол: машина 3.5 ч</li>
+                <li><i class="fas fa-helicopter"></i> Вертолёт от Каракола: по запросу</li>
+                <li><i class="fas fa-exclamation-triangle" style="color:#f59e0b"></i> Требуется пропуск погранзоны</li>
+              </ul>
+            </div>
+            <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+              <a href="routes.html" class="btn-sm"><i class="fas fa-hiking"></i> Маршрут</a>
+              <a href="map.html" class="btn-sm" style="background:var(--green)"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            </div>
+          </div>
+        </div>
+
+        <div class="mountain-card" id="akshyirak">
+          <div class="mountain-img" style="background-image:url('https://images.unsplash.com/photo-1555400038-63f5ba517a47?w=800')">
+            <span class="mountain-badge">🏔️ 5168 м • Иссык-Кульская обл.</span>
+          </div>
+          <div class="mountain-body">
+            <h2>Ак-Шыйрак</h2>
+            <p>Горный массив с многочисленными ледниками. Популярен для ски-туринга и уединённых маршрутов.</p>
+            <div class="mountain-info">
+              <div class="info-badge"><i class="fas fa-ruler-vertical"></i> до 5168 м</div>
+              <div class="info-badge"><i class="fas fa-calendar"></i> Июнь–Сент.</div>
+              <div class="info-badge"><i class="fas fa-star"></i> Средняя</div>
+            </div>
+            <div class="mountain-transport">
+              <h4><i class="fas fa-route" style="color:var(--primary);margin-right:.4rem"></i> <span data-i18n="how_to_reach">Как добраться</span></h4>
+              <ul>
+                <li><i class="fas fa-bus"></i> Бишкек→Балыкчи: маршрутка 3 ч</li>
+                <li><i class="fas fa-car"></i> Балыкчи→Кочкор→подъезд: 3 ч</li>
+                <li><i class="fas fa-hiking"></i> Пешком до ледников: 1-2 дня</li>
+              </ul>
+            </div>
+            <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+              <a href="routes.html" class="btn-sm"><i class="fas fa-hiking"></i> Маршрут</a>
+              <a href="map.html" class="btn-sm" style="background:var(--green)"><i class="fas fa-map"></i> <span data-i18n="btn_map">На карте</span></a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- СОВЕТЫ -->
+      <div style="background:linear-gradient(135deg,#1e3a5f,#2563eb);border-radius:var(--radius);padding:2.5rem;margin-top:3rem;color:white">
+        <h2 style="margin-bottom:1.5rem;font-size:1.6rem"><i class="fas fa-exclamation-circle" style="color:var(--accent)"></i> <span data-i18n="tips_title">Важные советы</span></h2>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem">
+          <div><h4 style="color:var(--accent);margin-bottom:.5rem"><i class="fas fa-id-card"></i> <span data-i18n="tip1_t">Разрешения</span></h4><p style="font-size:.88rem;opacity:.85" data-i18n="tip1_d">Для погранзон нужен специальный пропуск ГКНБ</p></div>
+          <div><h4 style="color:var(--accent);margin-bottom:.5rem"><i class="fas fa-medkit"></i> <span data-i18n="tip2_t">Страховка</span></h4><p style="font-size:.88rem;opacity:.85" data-i18n="tip2_d">Обязательна с покрытием горного спасения от $50 000</p></div>
+          <div><h4 style="color:var(--accent);margin-bottom:.5rem"><i class="fas fa-users"></i> <span data-i18n="tip3_t">Гиды</span></h4><p style="font-size:.88rem;opacity:.85" data-i18n="tip3_d">Рекомендуем сертифицированных горных гидов КР</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col"><div class="logo"><i class="fas fa-mountain"></i> <strong>VisitKyrgyzstan</strong></div><p data-i18n="footer_tagline">Ваш надёжный путеводитель.</p></div>
+        <div class="footer-col"><h4 data-i18n="footer_nav">Навигация</h4><ul>
+          <li><a href="index.html" data-i18n="nav_home">Главная</a></li><li><a href="places.html" data-i18n="nav_places">Места</a></li>
+          <li><a href="mountains.html" data-i18n="nav_mountains">Горы</a></li><li><a href="routes.html" data-i18n="nav_routes">Маршруты</a></li>
+          <li><a href="map.html" data-i18n="nav_map">Карта</a></li><li><a href="reviews.html" data-i18n="nav_reviews">Отзывы</a></li>
+        </ul></div>
+        <div class="footer-col"><h4 data-i18n="footer_contact">Контакты</h4><p><i class="fas fa-envelope"></i> info@visit-kyrgyzstan.kg</p><p><i class="fas fa-phone"></i> +996 312 000 000</p></div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2026 VisitKyrgyzstan. <span data-i18n="footer_copy">Все права защищены.</span></p></div>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast"><i class="fas fa-check-circle"></i> <span id="toastMsg"></span></div>
+  <script src="translations.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

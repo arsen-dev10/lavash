@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Дашборд — Админ панель</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="stylesheet" href="admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+<div class="admin-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <i class="fas fa-mountain"></i>
+      <div>
+        <span>VisitKyrgyzstan</span>
+        <small>Admin Panel</small>
+      </div>
+    </div>
+    <nav class="sidebar-menu">
+      <div class="menu-section">Главное</div>
+      <a href="dashboard.html" class="menu-item active"><i class="fas fa-tachometer-alt"></i> Дашборд</a>
+
+      <div class="menu-section">Контент</div>
+      <a href="places.html"  class="menu-item"><i class="fas fa-map-marker-alt"></i> Места</a>
+      <a href="routes.html"  class="menu-item"><i class="fas fa-route"></i> Маршруты</a>
+      <a href="reviews.html" class="menu-item" id="reviewsLink"><i class="fas fa-star"></i> Отзывы</a>
+
+      <div class="menu-section">Система</div>
+      <a href="settings.html" class="menu-item"><i class="fas fa-cog"></i> Настройки</a>
+      <a href="../index.html" class="menu-item" target="_blank"><i class="fas fa-external-link-alt"></i> Открыть сайт</a>
+      <a href="#" class="menu-item" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Выход</a>
+    </nav>
+    <div class="sidebar-footer">
+      <strong id="sidebarUser">Администратор</strong>
+      Последний вход: <span id="lastLogin">—</span>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <div class="main-content">
+    <div class="topbar">
+      <div class="topbar-left">
+        <button id="adminBurger" style="background:none;border:none;cursor:pointer;font-size:1.1rem;color:var(--a-gray);display:none"><i class="fas fa-bars"></i></button>
+        <div>
+          <div class="topbar-title">Дашборд</div>
+          <div class="topbar-breadcrumb"><span>Главная</span></div>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <a href="../index.html" target="_blank" class="topbar-site-link"><i class="fas fa-globe"></i> Открыть сайт</a>
+        <div class="topbar-user"><div class="avatar">A</div><span>Admin</span></div>
+        <button class="logout-btn" onclick="adminLogout()"><i class="fas fa-sign-out-alt"></i> Выход</button>
+      </div>
+    </div>
+
+    <div class="page-body">
+      <div class="page-header">
+        <div>
+          <h1>Добро пожаловать! 👋</h1>
+          <p>Обзор состояния туристического каталога</p>
+        </div>
+        <div style="display:flex;gap:.75rem">
+          <a href="places.html" class="btn btn-primary"><i class="fas fa-plus"></i> Добавить место</a>
+          <a href="routes.html" class="btn btn-outline"><i class="fas fa-plus"></i> Добавить маршрут</a>
+        </div>
+      </div>
+
+      <!-- STAT CARDS -->
+      <div class="stats-grid" id="statsGrid">
+        <div class="stat-card">
+          <div class="stat-icon blue"><i class="fas fa-map-marker-alt"></i></div>
+          <div class="stat-info"><strong id="statPlaces">—</strong><span>Мест в каталоге</span><div class="stat-change up" id="statPlacesActive"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon green"><i class="fas fa-route"></i></div>
+          <div class="stat-info"><strong id="statRoutes">—</strong><span>Маршрутов</span></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon amber"><i class="fas fa-star"></i></div>
+          <div class="stat-info"><strong id="statReviews">—</strong><span>Отзывов</span><div class="stat-change up" id="statAvg"></div></div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon purple"><i class="fas fa-bookmark"></i></div>
+          <div class="stat-info"><strong id="statSaved">—</strong><span>Сохранений</span></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+
+        <!-- ПОСЛЕДНИЕ ОТЗЫВЫ -->
+        <div class="card">
+          <div class="card-header">
+            <h2><i class="fas fa-comments"></i> Последние отзывы</h2>
+            <a href="reviews.html" class="btn btn-ghost btn-sm">Все отзывы</a>
+          </div>
+          <div class="card-body" id="recentReviews" style="padding:0">
+            <div class="empty-state"><i class="fas fa-comment-slash"></i><p>Отзывов пока нет</p></div>
+          </div>
+        </div>
+
+        <!-- МЕСТА ПО КАТЕГОРИЯМ -->
+        <div class="card">
+          <div class="card-header">
+            <h2><i class="fas fa-chart-bar"></i> Места по категориям</h2>
+          </div>
+          <div class="card-body">
+            <div class="progress-row" id="catProgress"></div>
+          </div>
+        </div>
+
+        <!-- БЫСТРЫЕ ДЕЙСТВИЯ -->
+        <div class="card">
+          <div class="card-header"><h2><i class="fas fa-bolt"></i> Быстрые действия</h2></div>
+          <div class="card-body">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+              <a href="places.html" class="btn btn-outline" style="justify-content:center"><i class="fas fa-map-marker-alt"></i> Управление местами</a>
+              <a href="routes.html" class="btn btn-outline" style="justify-content:center"><i class="fas fa-route"></i> Управление маршрутами</a>
+              <a href="reviews.html" class="btn btn-outline" style="justify-content:center"><i class="fas fa-star"></i> Отзывы</a>
+              <a href="settings.html" class="btn btn-outline" style="justify-content:center"><i class="fas fa-cog"></i> Настройки</a>
+              <a href="../index.html" target="_blank" class="btn btn-ghost" style="justify-content:center;grid-column:1/-1"><i class="fas fa-external-link-alt"></i> Открыть сайт в новой вкладке</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- ПОСЛЕДНЯЯ АКТИВНОСТЬ -->
+        <div class="card">
+          <div class="card-header"><h2><i class="fas fa-history"></i> Активность</h2></div>
+          <div class="card-body" style="padding:0 1.5rem">
+            <div class="activity-feed" id="activityFeed"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+<script>
+requireAuth();
+initSidebar();
+
+// Последний вход
+const lt = localStorage.getItem('kg_admin_login_time');
+if (lt) document.getElementById('lastLogin').textContent = new Date(parseInt(lt)).toLocaleTimeString('ru-RU',{hour:'2-digit',minute:'2-digit'});
+
+// Статистика
+const stats = getStats();
+document.getElementById('statPlaces').textContent  = stats.totalPlaces;
+document.getElementById('statRoutes').textContent  = stats.totalRoutes;
+document.getElementById('statReviews').textContent = stats.totalReviews;
+document.getElementById('statSaved').textContent   = stats.savedCount;
+document.getElementById('statPlacesActive').textContent  = `✓ ${stats.activePlaces} активных`;
+document.getElementById('statAvg').textContent           = `★ Средний: ${stats.avgRating}`;
+
+// Обновить счётчик отзывов в меню
+const rLink = document.getElementById('reviewsLink');
+if (stats.totalReviews > 0) rLink.innerHTML += `<span class="menu-badge green">${stats.totalReviews}</span>`;
+
+// Последние отзывы
+const reviews = getReviews().slice(0,5);
+const recentEl = document.getElementById('recentReviews');
+if (reviews.length) {
+  recentEl.innerHTML = reviews.map(r => `
+    <div style="display:flex;align-items:flex-start;gap:.75rem;padding:.9rem 1.5rem;border-bottom:1px solid #f1f5f9">
+      <div style="width:36px;height:36px;border-radius:50%;background:var(--a-primary);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.9rem;flex-shrink:0">${escHtml(r.name.charAt(0))}</div>
+      <div style="flex:1;min-width:0">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem">
+          <strong style="font-size:.88rem">${escHtml(r.name)}</strong>
+          <span class="stars-sm">${'★'.repeat(r.rating)}</span>
+        </div>
+        <div style="font-size:.78rem;color:var(--a-gray);margin-bottom:.3rem"><i class="fas fa-map-marker-alt" style="color:var(--a-primary)"></i> ${escHtml(r.place)}</div>
+        <div style="font-size:.82rem;color:var(--a-dark2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml(r.text.slice(0,80))}...</div>
+      </div>
+    </div>`).join('');
+}
+
+// Категории — прогресс бар
+const places = getPlaces();
+const catCount = {};
+places.forEach(p => { catCount[p.cat] = (catCount[p.cat]||0)+1; });
+const catColors = { lake:'blue', mountain:'purple', canyon:'orange', forest:'green', culture:'amber', city:'blue', gorge:'green' };
+const catProg = document.getElementById('catProgress');
+catProg.innerHTML = Object.entries(catCount).map(([cat, cnt]) => `
+  <div class="progress-item">
+    <div class="progress-label">
+      <span>${CAT_LABELS[cat]||cat}</span>
+      <span>${cnt}</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar ${catColors[cat]||'blue'}" style="width:${Math.round(cnt/places.length*100)}%"></div>
+    </div>
+  </div>`).join('');
+
+// Активность
+const actFeed = document.getElementById('activityFeed');
+const actItems = [
+  { icon:'fas fa-map-marker-alt', color:'blue',  text:`Мест в каталоге: <strong>${stats.totalPlaces}</strong>`, time:'Сейчас' },
+  { icon:'fas fa-star',           color:'orange',text:`Отзывов получено: <strong>${stats.totalReviews}</strong>`, time:'Всего' },
+  { icon:'fas fa-route',          color:'green', text:`Маршрутов активно: <strong>${stats.totalRoutes}</strong>`, time:'Всего' },
+  { icon:'fas fa-bookmark',       color:'blue',  text:`Мест сохранено пользователями: <strong>${stats.savedCount}</strong>`, time:'Всего' },
+  { icon:'fas fa-cog',            color:'red',   text:`Последний вход в панель`, time: lt ? new Date(parseInt(lt)).toLocaleString('ru-RU',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}) : '—' },
+];
+actFeed.innerHTML = actItems.map(a => `
+  <div class="activity-item">
+    <div class="activity-dot ${a.color}"><i class="${a.icon}"></i></div>
+    <div class="activity-text"><strong>${a.text}</strong><span>${a.time}</span></div>
+  </div>`).join('');
+</script>
+</body>
+</html>
